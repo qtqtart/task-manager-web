@@ -13,8 +13,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-import { reducer } from "./reducer";
-import { whitelist } from "./whitelist";
+import { reducer, whitelist } from "./reducer";
 
 export const store = configureStore({
   middleware: (getDefaultMiddleware) =>

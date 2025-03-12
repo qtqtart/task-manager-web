@@ -8,7 +8,7 @@ export interface UserState {
 
 const initialState: UserState = {
   jwtPayload: undefined,
-  accessToken: "zxc",
+  accessToken: undefined,
 };
 
 export const userSlice = createSlice({

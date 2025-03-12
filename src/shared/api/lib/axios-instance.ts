@@ -1,5 +1,5 @@
-import { ROUTER_PATHS } from "@app/router/consts/router-paths";
 import { removeAccessToken, setAccessToken } from "@shared/lib/access-token";
+import { ROUTER_PATHS } from "@shared/router/consts/router-paths";
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 
 export const axiosInstance = axios.create({
