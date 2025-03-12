@@ -1,4 +1,5 @@
 import { AuthLayout } from "@app/layouts/auth-layout";
+import { CompactLayout } from "@app/layouts/compact-layout";
 import { DashboardLayout } from "@app/layouts/dashboard-layout";
 import { AnalyticsPage } from "@pages/analytics-page";
 import { ForbiddenPage } from "@pages/forbidden-page";
@@ -72,15 +73,19 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: ROUTER_PATHS.LAYOUTS.COMPACT,
+    element: <CompactLayout />,
     children: [
       {
-        path: ROUTER_PATHS.PAGES.FORBIDDEN,
-        element: <ForbiddenPage />,
+        index: true,
+        element: <Navigate replace to={ROUTER_PATHS.PAGES.NOT_FOUND} />,
       },
       {
         path: ROUTER_PATHS.PAGES.NOT_FOUND,
         element: <NotFoundPage />,
+      },
+      {
+        path: ROUTER_PATHS.PAGES.FORBIDDEN,
+        element: <ForbiddenPage />,
       },
     ],
   },
