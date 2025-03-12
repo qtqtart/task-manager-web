@@ -1,4 +1,4 @@
-import { breakpoints, palette, shadows, typography } from "@app/styles";
+import { breakpoints, shadows, typography } from "@app/styles";
 import { useThemeMode } from "@features/theme-mode-state";
 import {
   createTheme,
@@ -13,12 +13,15 @@ export const WithThemeProvider: FC<PropsWithChildren> = ({ children }) => {
   const theme = useMemo(
     () =>
       createTheme({
-        palette: palette(themeMode),
         breakpoints,
         shadows,
         typography,
         shape: {
           borderRadius: 4,
+        },
+        colorSchemes: {
+          dark: themeMode === "dark",
+          light: themeMode === "light",
         },
       }),
     [themeMode],

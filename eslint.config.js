@@ -1,4 +1,5 @@
 import js from "@eslint/js";
+import i18next from "eslint-plugin-i18next";
 import prettierPlugin from "eslint-plugin-prettier";
 import reactPlugin from "eslint-plugin-react";
 import reactHooksPlugin from "eslint-plugin-react-hooks";
@@ -8,6 +9,8 @@ import globals from "globals";
 import ts from "typescript-eslint";
 
 export default ts.config(
+  i18next.configs["flat/recommended"],
+  //
   ...ts.configs.recommended,
   js.configs.recommended,
   {

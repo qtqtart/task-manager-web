@@ -1,4 +1,10 @@
 {
+  "form": {
+    "short": "field so short",
+    "long": "field so long"
+  },
   "sign-in": "Sign in",
-  "sign-up": "Sign up"
+  "sign-up": "Sign up",
+  "login": "Login",
+  "password": "Password"
 }

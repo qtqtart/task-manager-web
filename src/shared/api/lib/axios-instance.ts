@@ -4,37 +4,43 @@ import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
+  headers: {
+    Accept: "application/json",
+  },
   withCredentials: true,
+  timeout: 60000,
 });
 
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
     const status = error.response?.status;
+    const request = error.config as InternalAxiosRequestConfig;
 
-    switch (status) {
-      case 404:
-        window.location.href = ROUTER_PATHS.FULL.NOT_FOUND;
-        break;
-      case 403:
-        window.location.href = ROUTER_PATHS.FULL.FORBIDDEN;
-        break;
-      case 401:
-        try {
-          const request = error.config as InternalAxiosRequestConfig;
-          const response = await axiosInstance.post("/auth/refresh");
-          const accessToken = response.data?.accessToken;
-
-          setAccessToken(accessToken);
-          request.headers.Authorization = `Bearer ${accessToken}`;
-
-          return axiosInstance(request);
-        } catch (error) {
-          removeAccessToken();
-          return Promise.reject(error);
-        }
-      default:
-        return Promise.reject(error);
+    if (status === 404) {
+      window.location.href = ROUTER_PATHS.FULL.NOT_FOUND;
+      return;
     }
+    if (status === 403) {
+      window.location.href = ROUTER_PATHS.FULL.FORBIDDEN;
+      return;
+    }
+    if (status === 401 && !request._retry) {
+      request._retry = true;
+
+      try {
+        const response = await axiosInstance.post("/auth/refresh");
+        const accessToken = response.data?.accessToken;
+        request.headers.Authorization = `Bearer ${accessToken}`;
+
+        setAccessToken(accessToken);
+        return axiosInstance(request);
+      } catch (error) {
+        removeAccessToken();
+        return Promise.reject(error);
+      }
+    }
+
+    return Promise.reject(error);
   },
 );
