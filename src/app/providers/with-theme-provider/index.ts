@@ -1,0 +1,1 @@
+export { WithThemeProvider } from "./ui";
