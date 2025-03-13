@@ -1,6 +1,7 @@
-import { AppBar, Avatar, Stack } from "@mui/material";
+import { AppBar, Stack } from "@mui/material";
 import { useResponsive } from "@shared/hooks/use-responsive";
 import { Logotype } from "@shared/ui/logotype";
+import { AvatarPopover } from "@widgets/avatar-popover";
 import { HeaderNavigation } from "@widgets/header-navigation";
 import { FC } from "react";
 
@@ -42,7 +43,7 @@ export const Header: FC = () => {
             }}
           >
             <HeaderNavigation />
-            <Avatar>{"user"}</Avatar>
+            <AvatarPopover />
           </Stack>
         </Stack>
       )}

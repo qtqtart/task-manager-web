@@ -1,4 +1,8 @@
-import { removeAccessToken, setAccessToken } from "@features/auth/lib/utils";
+import {
+  getAccessToken,
+  removeAccessToken,
+  setAccessToken,
+} from "@features/auth/lib/utils";
 import { ROUTER_PATHS } from "@shared/router";
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 
@@ -7,6 +11,19 @@ export const axiosInstance = axios.create({
   baseURL,
   withCredentials: true,
 });
+
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const accessToken = getAccessToken();
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
 
 axiosInstance.interceptors.response.use(
   (response) => response,

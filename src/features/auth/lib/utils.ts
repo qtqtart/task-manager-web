@@ -2,6 +2,8 @@ import { store } from "@app/store";
 import { authSlice } from "@features/auth";
 import { jwtDecode, JwtPayload } from "jwt-decode";
 
+export const getAccessToken = () => store.getState().auth.accessToken;
+
 export const setAccessToken = (accessToken: string) => {
   const jwtPayload = jwtDecode(accessToken) as JwtPayload;
   store.dispatch(

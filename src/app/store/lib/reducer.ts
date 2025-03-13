@@ -5,13 +5,8 @@ import { baseApi } from "@shared/api";
 
 export const reducer = combineReducers({
   [baseApi.reducerPath]: baseApi.reducer,
-  //
   [authSlice.reducerPath]: authSlice.reducer,
   [themeModeSlice.reducerPath]: themeModeSlice.reducer,
 });
 
-export const whitelist = [
-  //
-  authSlice.reducerPath,
-  themeModeSlice.reducerPath,
-];
+export const whitelist = [authSlice.reducerPath, themeModeSlice.reducerPath];
