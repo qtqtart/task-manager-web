@@ -1,5 +1,5 @@
 import { breakpoints, shadows, typography } from "@app/styles";
-import { useThemeMode } from "@features/theme-mode-state";
+import { useThemeMode } from "@features/theme-mode";
 import {
   createTheme,
   CssBaseline,

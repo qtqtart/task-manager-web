@@ -1,5 +1,5 @@
-import { removeAccessToken, setAccessToken } from "@shared/lib/access-token";
-import { ROUTER_PATHS } from "@shared/router/consts/router-paths";
+import { removeAccessToken, setAccessToken } from "@features/auth/lib/utils";
+import { ROUTER_PATHS } from "@shared/router";
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 
 const baseURL = import.meta.env.VITE_BASE_URL;

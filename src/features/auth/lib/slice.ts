@@ -1,21 +1,21 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { JwtPayload } from "@shared/types/jwt-payload";
+import { JwtPayload } from "jwt-decode";
 
-export interface UserState {
+export interface AuthState {
   jwtPayload?: JwtPayload;
   accessToken?: string;
 }
 
-const initialState: UserState = {
+const initialState: AuthState = {
   jwtPayload: undefined,
   accessToken: undefined,
 };
 
-export const userSlice = createSlice({
-  name: "user",
+export const authSlice = createSlice({
+  name: "auth",
   initialState,
   reducers: {
-    set: (state, { payload }: PayloadAction<UserState>) => {
+    set: (state, { payload }: PayloadAction<AuthState>) => {
       state.jwtPayload = payload.jwtPayload;
       state.accessToken = payload.accessToken;
     },

@@ -10,7 +10,7 @@ import { SignInPage } from "@pages/sign-in-page";
 import { SignUpPage } from "@pages/sign-up-page";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 
-import { ROUTER_PATHS } from "../consts/router-paths";
+import { ROUTER_PATHS } from "../consts";
 import { AuthGuard } from "./auth-guard";
 import { GuestGuard } from "./guest-guard";
 

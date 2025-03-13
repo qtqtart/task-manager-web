@@ -1,18 +1,17 @@
-import { dashboardSlice } from "@features/dashboard-state";
-import { themeModeSlice } from "@features/theme-mode-state";
-import { userSlice } from "@features/user-state";
+import { authSlice } from "@features/auth";
+import { themeModeSlice } from "@features/theme-mode";
 import { combineReducers } from "@reduxjs/toolkit";
 import { baseApi } from "@shared/api";
 
 export const reducer = combineReducers({
   [baseApi.reducerPath]: baseApi.reducer,
-  [dashboardSlice.reducerPath]: dashboardSlice.reducer,
+  //
+  [authSlice.reducerPath]: authSlice.reducer,
   [themeModeSlice.reducerPath]: themeModeSlice.reducer,
-  [userSlice.reducerPath]: userSlice.reducer,
 });
 
 export const whitelist = [
-  dashboardSlice.reducerPath,
+  //
+  authSlice.reducerPath,
   themeModeSlice.reducerPath,
-  userSlice.reducerPath,
 ];

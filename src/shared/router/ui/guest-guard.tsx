@@ -1,13 +1,13 @@
-import { useUser } from "@features/user-state";
+import { useAuth } from "@features/auth";
 import { FC, PropsWithChildren } from "react";
 import { Navigate } from "react-router-dom";
 
-import { ROUTER_PATHS } from "../consts/router-paths";
+import { ROUTER_PATHS } from "../consts";
 
 export const GuestGuard: FC<PropsWithChildren> = ({ children }) => {
-  const { user } = useUser();
+  const { auth } = useAuth();
 
-  return user.accessToken ? (
+  return auth.accessToken ? (
     <Navigate replace to={ROUTER_PATHS.FULL.ANALYTICS} />
   ) : (
     <>{children}</>

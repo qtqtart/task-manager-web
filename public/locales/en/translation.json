@@ -3,8 +3,13 @@
     "short": "field so short",
     "long": "field so long"
   },
+  "pages": {
+    "analytics": "Analytics",
+    "projects": "Projects"
+  },
   "sign-in": "Sign in",
   "sign-up": "Sign up",
+  "sign-out": "Sign out",
   "login": "Login",
   "password": "Password"
 }

@@ -1,4 +1,4 @@
-import { useUser } from "@features/user-state";
+import { setAccessToken } from "@features/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoadingButton } from "@mui/lab";
 import { Alert, Stack, Typography } from "@mui/material";
@@ -22,18 +22,15 @@ export const SignInForm: FC = () => {
     defaultValues,
   });
 
-  const { setUser } = useUser();
   const [signIn, { isLoading, isSuccess, isError, error }] =
     useSignInMutation();
-
   const handleSubmit = useCallback(
     async (values: SignInSchemaValues) => {
-      const res = await signIn(values).unwrap();
-      console.log(res);
-      setUser({ accessToken: res.accessToken });
+      const { accessToken } = await signIn(values).unwrap();
+      setAccessToken(accessToken);
       if (isSuccess) form.reset(defaultValues);
     },
-    [signIn, setUser, isSuccess, form, defaultValues],
+    [signIn, isSuccess, form, defaultValues],
   );
 
   return (
@@ -45,7 +42,6 @@ export const SignInForm: FC = () => {
         }}
       >
         <Typography variant="subtitle1">{t("sign-in")}</Typography>
-
         <RHFForm id={id} form={form} onSubmit={form.handleSubmit(handleSubmit)}>
           <RHFTextField
             name="login"

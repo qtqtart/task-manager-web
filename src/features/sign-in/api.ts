@@ -1,6 +1,6 @@
 import { baseApi } from "@shared/api";
 
-import { SignInRequest, SignInResponse } from "../models/types";
+import { SignInRequest, SignInResponse } from "./models/types";
 
 export const { useSignInMutation } = baseApi.injectEndpoints({
   endpoints: ({ mutation }) => ({

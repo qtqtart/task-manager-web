@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { ROUTER_PATHS } from "../consts/router-paths";
+import { ROUTER_PATHS } from "../consts";
 
 export const useAuthRedirect = () => {
   const navigate = useNavigate();
