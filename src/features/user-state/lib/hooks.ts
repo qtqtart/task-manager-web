@@ -3,7 +3,7 @@ import { useCallback } from "react";
 
 import { userSlice, UserState } from "./slice";
 
-export const useUserState = () => {
+export const useUser = () => {
   const dispatch = useRootDispatch();
   const user = useRootSelector((state) => state.user);
 

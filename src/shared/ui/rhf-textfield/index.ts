@@ -1,1 +1,1 @@
-export { RHFTextField } from "./ui";
+export { RHFTextField, RHFTextFieldPassword } from "./ui";

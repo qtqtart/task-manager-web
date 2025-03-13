@@ -1,5 +1,12 @@
-import { TextField, TextFieldProps } from "@mui/material";
-import { memo } from "react";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import {
+  IconButton,
+  InputAdornment,
+  TextField,
+  TextFieldProps,
+} from "@mui/material";
+import { memo, useCallback, useState } from "react";
 import { Controller, FieldValues, Path, useFormContext } from "react-hook-form";
 
 type Props<T extends FieldValues> = {
@@ -28,3 +35,43 @@ const RHFTextField_ = <T extends FieldValues>({ name, ...props }: Props<T>) => {
 };
 
 export const RHFTextField = memo(RHFTextField_);
+
+const RHFTextFieldPassword_ = <T extends FieldValues>({
+  name,
+  ...props
+}: Props<T>) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const onShowPassword = useCallback(() => {
+    setShowPassword(true);
+  }, []);
+  const onHidePassword = useCallback(() => {
+    setShowPassword(false);
+  }, []);
+
+  return (
+    <RHFTextField
+      name={name}
+      type={showPassword ? "text" : "password"}
+      slotProps={{
+        input: {
+          endAdornment: (
+            <InputAdornment position="end">
+              {showPassword ? (
+                <IconButton onClick={onHidePassword}>
+                  <VisibilityIcon />
+                </IconButton>
+              ) : (
+                <IconButton onClick={onShowPassword}>
+                  <VisibilityOffIcon />
+                </IconButton>
+              )}
+            </InputAdornment>
+          ),
+        },
+      }}
+      {...props}
+    />
+  );
+};
+
+export const RHFTextFieldPassword = memo(RHFTextFieldPassword_);

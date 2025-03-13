@@ -1,14 +1,12 @@
-import { useUserState } from "@features/user-state";
+import { useUser } from "@features/user-state";
 import { FC, PropsWithChildren } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 
 import { ROUTER_PATHS } from "../consts/router-paths";
 
 export const AuthGuard: FC<PropsWithChildren> = ({ children }) => {
-  const { user } = useUserState();
+  const { user } = useUser();
   const { pathname } = useLocation();
-
-  console.log("auth-g");
 
   return !user.accessToken ? (
     <Navigate

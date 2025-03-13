@@ -1,17 +1,10 @@
+import { useUser } from "@features/user-state";
 import { zodResolver } from "@hookform/resolvers/zod";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { LoadingButton } from "@mui/lab";
-import {
-  Alert,
-  IconButton,
-  InputAdornment,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Alert, Stack, Typography } from "@mui/material";
 import { RHFForm } from "@shared/ui/rhf-form";
-import { RHFTextField } from "@shared/ui/rhf-textfield";
-import { FC, useCallback, useId, useState } from "react";
+import { RHFTextField, RHFTextFieldPassword } from "@shared/ui/rhf-textfield";
+import { FC, useCallback, useId } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
@@ -20,32 +13,28 @@ import { useFormDefaultValues } from "./lib/hooks";
 import { SignInSchema, SignInSchemaValues } from "./models/schema";
 
 export const SignInForm: FC = () => {
-  const id = useId();
   const { t } = useTranslation();
   const { defaultValues } = useFormDefaultValues();
+  const id = useId();
   const form = useForm({
     mode: "onSubmit",
     resolver: zodResolver(SignInSchema),
     defaultValues,
   });
 
+  const { setUser } = useUser();
   const [signIn, { isLoading, isSuccess, isError, error }] =
     useSignInMutation();
+
   const handleSubmit = useCallback(
-    (values: SignInSchemaValues) => {
-      signIn(values);
+    async (values: SignInSchemaValues) => {
+      const res = await signIn(values).unwrap();
+      console.log(res);
+      setUser({ accessToken: res.accessToken });
       if (isSuccess) form.reset(defaultValues);
     },
-    [signIn, isSuccess, form, defaultValues],
+    [signIn, setUser, isSuccess, form, defaultValues],
   );
-
-  const [showPassword, setShowPassword] = useState(false);
-  const onShowPassword = useCallback(() => {
-    setShowPassword(true);
-  }, []);
-  const onHidePassword = useCallback(() => {
-    setShowPassword(false);
-  }, []);
 
   return (
     <>
@@ -58,39 +47,26 @@ export const SignInForm: FC = () => {
         <Typography variant="subtitle1">{t("sign-in")}</Typography>
 
         <RHFForm id={id} form={form} onSubmit={form.handleSubmit(handleSubmit)}>
-          <RHFTextField name="login" placeholder={t("login")} />
           <RHFTextField
-            name="password"
-            placeholder={t("password")}
-            type={showPassword ? "text" : "password"}
-            slotProps={{
-              input: {
-                endAdornment: (
-                  <InputAdornment position="end">
-                    {showPassword ? (
-                      <IconButton onClick={onHidePassword}>
-                        <VisibilityIcon />
-                      </IconButton>
-                    ) : (
-                      <IconButton onClick={onShowPassword}>
-                        <VisibilityOffIcon />
-                      </IconButton>
-                    )}
-                  </InputAdornment>
-                ),
-              },
-            }}
+            name="login"
+            label={t("login")}
+            placeholder={t("login")}
           />
-
-          {isError && <Alert severity="error">{JSON.stringify(error)}</Alert>}
+          <RHFTextFieldPassword
+            name="password"
+            label={t("password")}
+            placeholder={t("password")}
+          />
+          {isError && <Alert severity="error">{error.message}</Alert>}
         </RHFForm>
 
         <LoadingButton
           fullWidth
-          type="submit"
           form={id}
+          type="submit"
           loading={isLoading}
           variant="outlined"
+          size="large"
         >
           {t("sign-in")}
         </LoadingButton>
