@@ -2,11 +2,13 @@ import { setAccessToken } from "@features/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoadingButton } from "@mui/lab";
 import { Alert, Stack, Typography } from "@mui/material";
+import { ROUTER_PATHS } from "@shared/router";
 import { RHFForm } from "@shared/ui/rhf-form";
 import { RHFTextField, RHFTextFieldPassword } from "@shared/ui/rhf-textfield";
-import { FC, useCallback, useId } from "react";
+import { FC, useCallback, useEffect, useId } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 import { useSignInMutation } from "./api";
 import { useFormDefaultValues } from "./lib/hooks";
@@ -21,6 +23,7 @@ export const SignInForm: FC = () => {
     resolver: zodResolver(SignInSchema),
     defaultValues,
   });
+  const navigate = useNavigate();
 
   const [signIn, { isLoading, isSuccess, isError, error }] =
     useSignInMutation();
@@ -28,10 +31,15 @@ export const SignInForm: FC = () => {
     async (values: SignInSchemaValues) => {
       const { accessToken } = await signIn(values).unwrap();
       setAccessToken(accessToken);
-      if (isSuccess) form.reset(defaultValues);
     },
-    [signIn, isSuccess, form, defaultValues],
+    [signIn],
   );
+
+  useEffect(() => {
+    if (!isSuccess) return;
+    form.reset(defaultValues);
+    navigate(ROUTER_PATHS.FULL.ANALYTICS);
+  }, [isSuccess, defaultValues, form, navigate]);
 
   return (
     <>
