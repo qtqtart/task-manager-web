@@ -1,11 +1,9 @@
-import { PropsWithChildren } from "react";
-import { memo } from "react";
-import { FieldValues, UseFormReturn } from "react-hook-form";
-import { FormProvider } from "react-hook-form";
+import { memo, PropsWithChildren } from "react";
+import { FieldValues, FormProvider, UseFormReturn } from "react-hook-form";
 
 type Props<T extends FieldValues> = PropsWithChildren & {
   form: UseFormReturn<T>;
-  onSubmit?: VoidFunction;
+  onSubmit?: () => void;
   id?: string;
 };
 
@@ -16,7 +14,7 @@ const RHFForm_ = <T extends FieldValues>({
   id,
 }: Props<T>) => {
   return (
-    <FormProvider {...form}>
+    <FormProvider<T> {...form}>
       <form
         id={id}
         onSubmit={onSubmit}

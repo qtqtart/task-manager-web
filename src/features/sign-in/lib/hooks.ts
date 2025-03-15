@@ -5,6 +5,5 @@ export const useFormDefaultValues = () => {
     login: "",
     password: "",
   };
-
   return { defaultValues };
 };

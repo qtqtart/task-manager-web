@@ -1,30 +1,29 @@
-import { Button, ButtonGroup } from "@mui/material";
+import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { LANGUAGES_OPTIONS } from "@shared/i18n";
 import { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 
 export const TogglerLanguage: FC = () => {
   const { i18n } = useTranslation();
-  const handleClick = useCallback(
-    (value: string) => {
-      return () => {
-        i18n.changeLanguage(value);
-      };
+  const handleChange = useCallback(
+    (_: unknown, value: string) => {
+      i18n.changeLanguage(value);
     },
     [i18n],
   );
 
   return (
-    <ButtonGroup fullWidth variant="outlined">
+    <ToggleButtonGroup
+      fullWidth
+      exclusive
+      value={i18n.language}
+      onChange={handleChange}
+    >
       {Object.values(LANGUAGES_OPTIONS).map(({ label, value }) => (
-        <Button
-          key={value}
-          variant={i18n.language === value ? "contained" : "outlined"}
-          onClick={handleClick(value)}
-        >
+        <ToggleButton key={value} value={value}>
           {label}
-        </Button>
+        </ToggleButton>
       ))}
-    </ButtonGroup>
+    </ToggleButtonGroup>
   );
 };

@@ -33,7 +33,7 @@ export const SignOutButton: FC = () => {
       color="error"
       size="large"
     >
-      {t("sign-out")}
+      {t("signOut")}
     </LoadingButton>
   );
 };

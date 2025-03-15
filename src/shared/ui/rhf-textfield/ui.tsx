@@ -34,7 +34,9 @@ const RHFTextField_ = <T extends FieldValues>({ name, ...props }: Props<T>) => {
   );
 };
 
-export const RHFTextField = memo(RHFTextField_);
+export const RHFTextField = memo(RHFTextField_) as <T extends FieldValues>(
+  props: Props<T>,
+) => React.JSX.Element;
 
 const RHFTextFieldPassword_ = <T extends FieldValues>({
   name,
@@ -74,4 +76,8 @@ const RHFTextFieldPassword_ = <T extends FieldValues>({
   );
 };
 
-export const RHFTextFieldPassword = memo(RHFTextFieldPassword_);
+export const RHFTextFieldPassword = memo(RHFTextFieldPassword_) as <
+  T extends FieldValues,
+>(
+  props: Props<T>,
+) => React.JSX.Element;

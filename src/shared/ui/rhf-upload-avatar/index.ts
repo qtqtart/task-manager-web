@@ -1,0 +1,1 @@
+export { RHFUploadAvatar } from "./ui";

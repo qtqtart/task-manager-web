@@ -10,9 +10,8 @@ const SignInPage: FC = () => {
   return (
     <>
       <Helmet>
-        <title>{t("sign-in")}</title>
+        <title>{t("signIn")}</title>
       </Helmet>
-
       <Paper
         variant="outlined"
         component={Stack}

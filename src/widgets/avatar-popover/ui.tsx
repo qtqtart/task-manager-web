@@ -1,14 +1,24 @@
 import { useMeQuery } from "@features/me";
 import { SignOutButton } from "@features/sign-out";
-import { Avatar, Divider, Popover, Skeleton } from "@mui/material";
+import {
+  Avatar,
+  Divider,
+  Popover,
+  Skeleton,
+  Stack,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { usePopover } from "@shared/hooks/use-popover";
 import { TogglerLanguage } from "@widgets/toggler-language";
+import { TogglerThemeMode } from "@widgets/toggler-theme-mode";
 import { FC } from "react";
 
 export const AvatarPopover: FC = () => {
-  const { data, isLoading } = useMeQuery();
+  const { palette } = useTheme();
   const { anchorEl, handleClosePopover, handleOpenPopover, isOpenPopover } =
     usePopover();
+  const { data, isLoading } = useMeQuery();
 
   if (isLoading)
     return (
@@ -58,8 +68,37 @@ export const AvatarPopover: FC = () => {
           },
         }}
       >
-        <TogglerLanguage />
+        <Stack
+          sx={{
+            width: "100%",
+            flexDirection: "column",
+          }}
+        >
+          <Typography
+            noWrap
+            variant="body1"
+            sx={{
+              fontWeight: "500",
+              color: palette.text.secondary,
+            }}
+          >
+            {data.username}
+          </Typography>
+          <Typography
+            noWrap
+            variant="body1"
+            sx={{
+              fontWeight: "500",
+              color: palette.text.secondary,
+            }}
+          >
+            {data.email}
+          </Typography>
+        </Stack>
 
+        <Divider />
+        <TogglerLanguage />
+        <TogglerThemeMode />
         <Divider />
         <SignOutButton />
       </Popover>

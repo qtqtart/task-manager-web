@@ -3,7 +3,7 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import { ROUTER_PATHS } from "@shared/router";
 import { useTranslation } from "react-i18next";
 
-export type Option = {
+type Option = {
   link: string;
   icon: JSX.Element;
   label: string;

@@ -5,20 +5,21 @@ import { Alert, Link, Stack, Typography, useTheme } from "@mui/material";
 import { ROUTER_PATHS } from "@shared/router";
 import { RHFForm } from "@shared/ui/rhf-form";
 import { RHFTextField, RHFTextFieldPassword } from "@shared/ui/rhf-textfield";
+import { RHFUploadAvatar } from "@shared/ui/rhf-upload-avatar";
 import { FC, useCallback, useEffect, useId } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
 
-import { useSignInMutation } from "./api";
+import { useSignUpMutation } from "./api";
 import { useFormDefaultValues } from "./lib/hooks";
 import {
-  SignInSchema as Schema,
-  SignInSchemaValues as SchemaValues,
+  SignUpSchema as Schema,
+  SignUpSchemaValues as SchemaValues,
 } from "./models/schema";
 
-export const SignInForm: FC = () => {
+export const SignUpForm: FC = () => {
   const { t } = useTranslation();
   const { palette } = useTheme();
   const { defaultValues } = useFormDefaultValues();
@@ -30,21 +31,21 @@ export const SignInForm: FC = () => {
   });
   const navigate = useNavigate();
 
-  const [signIn, { isLoading, isSuccess, isError, error }] =
-    useSignInMutation();
+  const [signUp, { isLoading, isSuccess, isError, error }] =
+    useSignUpMutation();
   const handleSubmit = useCallback(
     async (values: SchemaValues) => {
-      const { accessToken } = await signIn(values).unwrap();
+      const { accessToken } = await signUp(values).unwrap();
       setAccessToken(accessToken);
     },
-    [signIn],
+    [signUp],
   );
 
   useEffect(() => {
     if (!isSuccess) return;
     form.reset(defaultValues);
     navigate(ROUTER_PATHS.FULL.ANALYTICS);
-  }, [isSuccess, defaultValues, form, navigate]);
+  }, [isSuccess, form, defaultValues, navigate]);
 
   return (
     <Stack
@@ -59,14 +60,14 @@ export const SignInForm: FC = () => {
           gap: "16px",
         }}
       >
-        <Typography variant="subtitle1">{t("signIn")}</Typography>
+        <Typography variant="subtitle1">{t("signUp")}</Typography>
         <Typography
           variant="body2"
           sx={{
             color: palette.text.secondary,
           }}
         >
-          {t("signInDescription")}
+          {t("signUpDescription")}
         </Typography>
       </Stack>
 
@@ -75,15 +76,54 @@ export const SignInForm: FC = () => {
         form={form}
         onSubmit={form.handleSubmit(handleSubmit)}
       >
+        <Stack
+          sx={{
+            flexDirection: "row",
+            gap: "16px",
+          }}
+        >
+          <Stack
+            sx={{
+              flexDirection: "column",
+              gap: "16px",
+              width: "100%",
+            }}
+          >
+            <RHFTextField<SchemaValues>
+              name="firstName"
+              label={t("formSchema.firstName.label")}
+              placeholder={t("formSchema.firstName.label")}
+            />
+
+            <RHFTextField<SchemaValues>
+              name="lastName"
+              label={t("formSchema.lastName.label")}
+              placeholder={t("formSchema.lastName.label")}
+            />
+          </Stack>
+
+          <RHFUploadAvatar<SchemaValues> name="file" />
+        </Stack>
+
         <RHFTextField<SchemaValues>
-          name="login"
-          label={t("formSchema.login.label")}
-          placeholder={t("formSchema.login.label")}
+          name="username"
+          label={t("formSchema.username.label")}
+          placeholder={t("formSchema.username.label")}
+        />
+        <RHFTextField<SchemaValues>
+          name="email"
+          label={t("formSchema.email.label")}
+          placeholder={t("formSchema.email.label")}
         />
         <RHFTextFieldPassword<SchemaValues>
           name="password"
           label={t("formSchema.password.label")}
           placeholder={t("formSchema.password.label")}
+        />
+        <RHFTextFieldPassword<SchemaValues>
+          name="passwordConfirm"
+          label={t("formSchema.passwordConfirm.label")}
+          placeholder={t("formSchema.passwordConfirm.label")}
         />
 
         {isError && (
@@ -105,10 +145,10 @@ export const SignInForm: FC = () => {
         >
           <Link
             component={RouterLink}
-            to={ROUTER_PATHS.FULL.SIGN_UP}
+            to={ROUTER_PATHS.FULL.SIGN_IN}
             underline="always"
           >
-            {t("signUp")}
+            {t("signIn")}
           </Link>
         </Typography>
       </RHFForm>
@@ -121,7 +161,7 @@ export const SignInForm: FC = () => {
         variant="outlined"
         size="large"
       >
-        {t("signIn")}
+        {t("signUp")}
       </LoadingButton>
     </Stack>
   );

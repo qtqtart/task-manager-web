@@ -15,11 +15,8 @@ export const themeModeSlice = createSlice({
   name: "themeMode",
   initialState,
   reducers: {
-    set: (state, { payload }: PayloadAction<ThemeModeState>) => {
-      state.themeMode = payload.themeMode;
-    },
-    toggle: (state) => {
-      state.themeMode = state.themeMode === "dark" ? "light" : "dark";
+    set: (state, { payload }: PayloadAction<ThemeModeState["themeMode"]>) => {
+      state.themeMode = payload;
     },
   },
 });

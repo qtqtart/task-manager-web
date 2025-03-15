@@ -1,15 +1,56 @@
 {
-  "form": {
-    "short": "field so short",
-    "long": "field so long"
+  "formSchema": {
+    "login": {
+      "label": "Login",
+      "min": "Login must be at least 5 characters",
+      "max": "Login must be less than 255 characters"
+    },
+    "username": {
+      "label": "Username",
+      "regex": "Username can only contain letters (A-Z, a-z) and numbers (0-9)",
+      "min": "Username must be at least 5 characters",
+      "max": "Username must be less than 255 characters"
+    },
+    "email": {
+      "label": "Email",
+      "min": "Email must be at least 5 characters",
+      "max": "Email must be less than 255 characters",
+      "invalid": "Invalid email format"
+    },
+    "firstName": {
+      "label": "First name",
+      "min": "First name must be at least 1 character",
+      "max": "First name must be less than 255 characters"
+    },
+    "lastName": {
+      "label": "Last name",
+      "min": "Last name must be at least 1 character",
+      "max": "Last name must be less than 255 characters"
+    },
+    "password": {
+      "label": "Password",
+      "min": "Password must be at least 6 characters",
+      "max": "Password must be less than 255 characters"
+    },
+    "passwordConfirm": {
+      "label": "Matched password",
+      "min": "Password confirmation must be at least 6 characters",
+      "max": "Password confirmation must be less than 255 characters",
+      "mismatch": "Passwords do not match"
+    },
+    "file": {
+      "invalid": "Invalid file format"
+    }
   },
   "pages": {
     "analytics": "Analytics",
     "projects": "Projects"
   },
-  "sign-in": "Sign in",
-  "sign-up": "Sign up",
-  "sign-out": "Sign out",
+  "signIn": "Sign in",
+  "signInDescription": "Welcome back! Sign in to access your account and continue your journey with us. Whether you're here to explore, learn, or manage your profile, logging in will give you access to all the features and tools tailored just for you.",
+  "signUp": "Sign up",
+  "signUpDescription": "Join our community today! Create an account to unlock exclusive benefits, personalized content, and seamless access to all our services. Signing up is quick, easy, and opens the door to a world of possibilities. Let’s get started!",
+  "signOut": "Sign out",
   "login": "Login",
   "password": "Password"
 }
