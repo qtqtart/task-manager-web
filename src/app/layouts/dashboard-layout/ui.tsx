@@ -1,4 +1,4 @@
-import { Paper, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import { Header } from "@widgets/header";
 import { FC } from "react";
 import { Outlet } from "react-router-dom";
@@ -22,15 +22,14 @@ const DashboardLayout: FC = () => {
           width: "100%",
         }}
       >
-        <Paper
-          variant="outlined"
+        <Stack
           sx={{
-            height: "100%",
             width: "100%",
+            height: "100%",
           }}
         >
           <Outlet />
-        </Paper>
+        </Stack>
       </Stack>
     </Stack>
   );

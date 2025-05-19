@@ -1,1 +1,0 @@
-export { AvatarPopover } from "./ui";

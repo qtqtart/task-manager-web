@@ -1,3 +1,2 @@
-export { breakpoints } from "./lib/breakpoints";
-export { shadows } from "./lib/shadows";
-export { typography } from "./lib/typography";
+export { createTheme } from "./lib/create-theme";
+export * from "./types";

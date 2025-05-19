@@ -1,4 +1,5 @@
 {
+  "unknownError": "Unknown error",
   "formSchema": {
     "login": {
       "label": "Login",
@@ -33,7 +34,7 @@
       "max": "Password must be less than 255 characters"
     },
     "passwordConfirm": {
-      "label": "Matched password",
+      "label": "Confirm password",
       "min": "Password confirmation must be at least 6 characters",
       "max": "Password confirmation must be less than 255 characters",
       "mismatch": "Passwords do not match"
@@ -51,6 +52,10 @@
   "signUp": "Sign up",
   "signUpDescription": "Join our community today! Create an account to unlock exclusive benefits, personalized content, and seamless access to all our services. Signing up is quick, easy, and opens the door to a world of possibilities. Let’s get started!",
   "signOut": "Sign out",
-  "login": "Login",
-  "password": "Password"
+  "search": "Search",
+  "projects": "Projects",
+  "project": "Project",
+  "pageNotFound": "Page not found",
+  "pageNotFoundDescription": "We couldn't find what you're looking for.",
+  "pageNotFoundButton": "Go to back"
 }

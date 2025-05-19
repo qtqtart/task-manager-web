@@ -1,7 +1,7 @@
 import CloseIcon from "@mui/icons-material/Close";
 import UploadIcon from "@mui/icons-material/Upload";
-import { alpha, Avatar, IconButton, Stack, useTheme } from "@mui/material";
-import { memo, useCallback } from "react";
+import { Avatar, Fab, Stack } from "@mui/material";
+import { memo, ReactElement, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { Controller, FieldValues, Path, useFormContext } from "react-hook-form";
 
@@ -10,7 +10,6 @@ type Props<T extends FieldValues> = {
 };
 
 const RHFUploadAvatar_ = <T extends FieldValues>({ name }: Props<T>) => {
-  const { palette } = useTheme();
   const { control, watch, setValue } = useFormContext<T>();
   const file = watch(name);
 
@@ -30,9 +29,10 @@ const RHFUploadAvatar_ = <T extends FieldValues>({ name }: Props<T>) => {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: handleDropFile,
     accept: {
-      "image/*": [".jpeg", ".jpg", ".png"],
+      "image/*": [".jpg", ".jpeg", ".png", ".webp", "gif"],
     },
     maxFiles: 1,
+    maxSize: 10 * 1024 * 1024,
   });
 
   return (
@@ -46,29 +46,37 @@ const RHFUploadAvatar_ = <T extends FieldValues>({ name }: Props<T>) => {
           }}
         >
           <Avatar
-            src={file ? URL.createObjectURL(file) : undefined}
-            sx={{
-              width: "128px",
-              height: "128px",
-            }}
+            variant="rounded"
+            {...(file && {
+              src: URL.createObjectURL(file),
+            })}
             {...getRootProps()}
+            sx={{
+              width: {
+                sm: "124px",
+                xs: "100%",
+              },
+              height: "124px",
+            }}
           >
             {!file && <UploadIcon />}
           </Avatar>
           <input {...getInputProps()} />
 
           {file && (
-            <IconButton
+            <Fab
+              variant="soft"
+              color="default"
+              size="small"
               onClick={handleRemoveFile}
               sx={{
                 position: "absolute",
                 top: 0,
                 right: 0,
-                border: `1px solid ${alpha(palette.text.primary, 0.23)}`,
               }}
             >
               <CloseIcon />
-            </IconButton>
+            </Fab>
           )}
         </Stack>
       )}
@@ -80,4 +88,4 @@ export const RHFUploadAvatar = memo(RHFUploadAvatar_) as <
   T extends FieldValues,
 >(
   props: Props<T>,
-) => React.JSX.Element;
+) => ReactElement;

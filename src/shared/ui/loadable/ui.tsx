@@ -10,7 +10,7 @@ export const Loadable = <T extends ElementType>(Component: T) => {
             alignItems: "center",
             justifyContent: "center",
             width: "100%",
-            height: "100%",
+            height: "100vh",
           }}
         >
           <CircularProgress />

@@ -1,4 +1,4 @@
-import { memo, PropsWithChildren } from "react";
+import { PropsWithChildren } from "react";
 import { FieldValues, FormProvider, UseFormReturn } from "react-hook-form";
 
 type Props<T extends FieldValues> = PropsWithChildren & {
@@ -7,7 +7,7 @@ type Props<T extends FieldValues> = PropsWithChildren & {
   id?: string;
 };
 
-const RHFForm_ = <T extends FieldValues>({
+export const RHFForm = <T extends FieldValues>({
   children,
   form,
   onSubmit,
@@ -15,23 +15,9 @@ const RHFForm_ = <T extends FieldValues>({
 }: Props<T>) => {
   return (
     <FormProvider<T> {...form}>
-      <form
-        id={id}
-        onSubmit={onSubmit}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          gap: "16px",
-          width: "100%",
-        }}
-      >
+      <form id={id} onSubmit={onSubmit} noValidate autoComplete="off">
         {children}
       </form>
     </FormProvider>
   );
 };
-
-export const RHFForm = memo(RHFForm_) as <T extends FieldValues>(
-  props: Props<T>,
-) => JSX.Element;

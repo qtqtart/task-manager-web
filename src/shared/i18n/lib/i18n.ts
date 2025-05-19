@@ -8,7 +8,7 @@ i18n
   .use(HttpBackend)
   .use(initReactI18next)
   .init({
-    debug: import.meta.env.DEV,
+    debug: false,
     lng: DEFAULT_LANGUAGE,
     fallbackLng: DEFAULT_LANGUAGE,
     defaultNS: "translation",
