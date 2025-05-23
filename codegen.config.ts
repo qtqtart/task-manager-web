@@ -8,17 +8,17 @@ const config: CodegenConfig = {
   documents: ["./src/**/*.graphql"],
   generates: {
     "./src/__generated__/graphql.output.ts": {
-      plugins: ["typescript", "typescript-operations", "typescript-rtk-query"],
-      config: {
-        importBaseApiFrom: "../shared/api",
-        importBaseApiAlternateName: "baseApi",
-        exportHooks: true,
-      },
+      plugins: [
+        "typescript",
+        "typescript-operations",
+        "typescript-react-apollo",
+      ],
     },
     "./.introspection.json": {
       plugins: ["introspection"],
     },
   },
+  ignoreNoDocuments: true,
 };
 
 export default config;

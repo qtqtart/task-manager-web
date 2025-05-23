@@ -1,20 +1,21 @@
 import { ColorSystemOptions, SupportedColorScheme } from "@mui/material";
-import { createPaletteChannel, varAlpha } from "minimal-shared/utils";
+
+import { createPaletteChannel, varAlpha } from "../utils";
 
 export const primary = createPaletteChannel({
-  lighter: "#C8FAD6",
-  light: "#5BE49B",
-  main: "#00A76F",
-  dark: "#007867",
-  darker: "#004B50",
-  contrastText: "#FFFFFF",
-});
-export const secondary = createPaletteChannel({
   lighter: "#EFD6FF",
   light: "#C684FF",
   main: "#8E33FF",
   dark: "#5119B7",
   darker: "#27097A",
+  contrastText: "#FFFFFF",
+});
+export const secondary = createPaletteChannel({
+  lighter: "#C8FAD6",
+  light: "#5BE49B",
+  main: "#00A76F",
+  dark: "#007867",
+  darker: "#004B50",
   contrastText: "#FFFFFF",
 });
 export const error = createPaletteChannel({

@@ -7,8 +7,8 @@ const MuiFormLabel: Components<Theme>["MuiFormLabel"] = {
       color: theme.vars.palette.text.disabled,
       [`&.${inputLabelClasses.shrink}`]: {
         ...theme.typography.body1,
-        fontWeight: 600,
         color: theme.vars.palette.text.secondary,
+        fontWeight: 600,
         [`&.${inputLabelClasses.focused}`]: {
           color: theme.vars.palette.text.primary,
         },
@@ -28,11 +28,19 @@ const MuiFormLabel: Components<Theme>["MuiFormLabel"] = {
 
 const MuiFormHelperText: Components<Theme>["MuiFormHelperText"] = {
   defaultProps: { component: "div" },
-  styleOverrides: { root: ({ theme }) => ({ marginTop: theme.spacing(1) }) },
+  styleOverrides: {
+    root: ({ theme }) => ({
+      marginTop: theme.spacing(1),
+    }),
+  },
 };
 
 const MuiFormControlLabel: Components<Theme>["MuiFormControlLabel"] = {
-  styleOverrides: { label: ({ theme }) => ({ ...theme.typography.body2 }) },
+  styleOverrides: {
+    label: ({ theme }) => ({
+      ...theme.typography.body2,
+    }),
+  },
 };
 
-export const form = { MuiFormLabel, MuiFormHelperText, MuiFormControlLabel };
+export default { MuiFormLabel, MuiFormHelperText, MuiFormControlLabel };

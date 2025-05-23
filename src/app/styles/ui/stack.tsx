@@ -1,8 +1,10 @@
 import { Components, Theme } from "@mui/material";
 
 const MuiStack: Components<Theme>["MuiStack"] = {
-  defaultProps: { useFlexGap: true },
+  defaultProps: {
+    useFlexGap: true,
+  },
   styleOverrides: {},
 };
 
-export const stack = { MuiStack };
+export default { MuiStack };

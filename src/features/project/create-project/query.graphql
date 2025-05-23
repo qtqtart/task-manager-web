@@ -1,0 +1,3 @@
+mutation CreateProject($input: CreateProjectInput!, $file: Upload) {
+  createProject(input: $input, file: $file)
+}

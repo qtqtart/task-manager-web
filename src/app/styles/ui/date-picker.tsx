@@ -23,6 +23,6 @@ const MuiPickersLayout: Components<Theme>["MuiPickersLayout"] = {
   },
 };
 
-export const datePicker = {
+export default {
   MuiPickersLayout,
 };

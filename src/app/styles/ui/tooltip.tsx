@@ -14,25 +14,25 @@ const MuiTooltip: Components<Theme>["MuiTooltip"] = {
         color: theme.vars.palette.grey[700],
       }),
     }),
-    popper: {
+    popper: ({ theme }) => ({
       [`&.${tooltipClasses.popper}[data-popper-placement*="bottom"] .${tooltipClasses.tooltip}`]:
         {
-          marginTop: 12,
+          marginTop: theme.spacing(1.5),
         },
       [`&.${tooltipClasses.popper}[data-popper-placement*="top"] .${tooltipClasses.tooltip}`]:
         {
-          marginBottom: 12,
+          marginBottom: theme.spacing(1.5),
         },
       [`&.${tooltipClasses.popper}[data-popper-placement*="right"] .${tooltipClasses.tooltip}`]:
         {
-          marginLeft: 12,
+          marginLeft: theme.spacing(1.5),
         },
       [`&.${tooltipClasses.popper}[data-popper-placement*="left"] .${tooltipClasses.tooltip}`]:
         {
-          marginRight: 12,
+          marginRight: theme.spacing(1.5),
         },
-    },
+    }),
   },
 };
 
-export const tooltip = { MuiTooltip };
+export default { MuiTooltip };

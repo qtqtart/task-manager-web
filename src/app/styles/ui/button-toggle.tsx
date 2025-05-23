@@ -5,7 +5,8 @@ import {
   toggleButtonClasses,
   ToggleButtonProps,
 } from "@mui/material";
-import { varAlpha } from "minimal-shared/utils";
+
+import { varAlpha } from "../utils";
 
 const COLORS = [
   "primary",
@@ -16,7 +17,7 @@ const COLORS = [
   "error",
 ] as const;
 
-const styleColors = (
+const overrideColors = (
   ownerState: ToggleButtonProps,
   styles: (val: (typeof COLORS)[number]) => CSSObject,
 ) => {
@@ -31,48 +32,36 @@ const styleColors = (
 
 const MuiToggleButton: Components<Theme>["MuiToggleButton"] = {
   styleOverrides: {
-    root: ({ theme, ownerState }) => {
-      const styled = {
-        colors: styleColors(ownerState, (color) => ({
-          "&:hover": {
-            borderColor: varAlpha(theme.vars.palette[color].mainChannel, 0.48),
-            backgroundColor: varAlpha(
-              theme.vars.palette[color].mainChannel,
-              theme.vars.palette.action.hoverOpacity,
-            ),
-          },
-        })),
-        selected: {
-          [`&.${toggleButtonClasses.selected}`]: {
-            borderColor: "currentColor",
-            boxShadow: "0 0 0 0.75px currentColor",
-          },
+    root: ({ theme, ownerState }) => ({
+      ...overrideColors(ownerState, (color) => ({
+        "&:hover": {
+          borderColor: varAlpha(theme.vars.palette[color].mainChannel, 0.48),
+          backgroundColor: varAlpha(
+            theme.vars.palette[color].mainChannel,
+            theme.vars.palette.action.hoverOpacity,
+          ),
         },
-        disabled: {
-          ...(ownerState.disabled && {
-            [`&.${toggleButtonClasses.selected}`]: {
-              color: theme.vars.palette.action.disabled,
-              backgroundColor: theme.vars.palette.action.selected,
-              borderColor: theme.vars.palette.action.disabledBackground,
-            },
-          }),
+      })),
+      ...(ownerState.disabled && {
+        [`&.${toggleButtonClasses.selected}`]: {
+          color: theme.vars.palette.action.disabled,
+          backgroundColor: theme.vars.palette.action.selected,
+          borderColor: theme.vars.palette.action.disabledBackground,
         },
-      };
-      return {
-        fontWeight: theme.typography.fontWeightSemiBold,
-        ...styled.colors,
-        ...styled.selected,
-        ...styled.disabled,
-      };
-    },
+      }),
+      [`&.${toggleButtonClasses.selected}`]: {
+        borderColor: "currentColor",
+        boxShadow: "0 0 0 0.75px currentColor",
+      },
+    }),
   },
 };
 
 const MuiToggleButtonGroup: Components<Theme>["MuiToggleButtonGroup"] = {
   styleOverrides: {
     root: ({ theme }) => ({
-      gap: 4,
-      padding: 4,
+      gap: theme.spacing(1 / 2),
+      padding: theme.spacing(1 / 2),
       border: `solid 1px ${varAlpha(theme.vars.palette.grey["500Channel"], 0.08)}`,
     }),
     grouped: {
@@ -80,9 +69,11 @@ const MuiToggleButtonGroup: Components<Theme>["MuiToggleButtonGroup"] = {
         border: "none",
         borderRadius: "inherit",
       },
-      [`&.${toggleButtonClasses.selected}`]: { boxShadow: "none" },
+      [`&.${toggleButtonClasses.selected}`]: {
+        boxShadow: "none",
+      },
     },
   },
 };
 
-export const buttonToggle = { MuiToggleButton, MuiToggleButtonGroup };
+export default { MuiToggleButton, MuiToggleButtonGroup };

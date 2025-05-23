@@ -1,5 +1,5 @@
 import { ROUTER_PATHS } from "@app/router";
-import { useAuthState } from "@features/auth/auth-state";
+import { useIsAuthStore } from "@features/auth/is-auth";
 import { useSignInMutation } from "@generated";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Alert, Button, Link, Stack, Typography } from "@mui/material";
@@ -29,17 +29,18 @@ export const SignInForm: FC = () => {
   });
   const { reset: formReset } = form;
 
-  const authState = useAuthState();
-  const [signIn, signInState] = useSignInMutation();
-  const handleSubmit = useCallback(
-    async (input: F) => {
-      const res = await signIn({ input }).unwrap();
-      if (res) {
-        authState.set(true);
-        formReset(defaultValues);
-      }
+  const authState = useIsAuthStore();
+  const [signIn, signInState] = useSignInMutation({
+    onCompleted: () => {
+      authState.set(true);
+      formReset(defaultValues);
     },
-    [signIn, authState, formReset, defaultValues],
+  });
+  const handleSubmit = useCallback(
+    (input: F) => {
+      signIn({ variables: { input } });
+    },
+    [signIn],
   );
 
   const showPassword = useShowPassword();
@@ -86,7 +87,7 @@ export const SignInForm: FC = () => {
             placeholder={t("formSchema.password.label")}
           />
 
-          {signInState.isError && (
+          {signInState.error && (
             <Alert
               severity="error"
               sx={{
@@ -115,7 +116,7 @@ export const SignInForm: FC = () => {
         type="submit"
         variant="contained"
         size="medium"
-        loading={signInState.isLoading}
+        loading={signInState.loading}
       >
         {t("signIn")}
       </Button>

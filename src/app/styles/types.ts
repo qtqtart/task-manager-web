@@ -29,6 +29,12 @@ export type GreyExtend = {
 
 //
 
+export type InputPalette = Record<string, string | undefined>;
+
+export type ChannelPalette<T extends InputPalette> = T & {
+  [K in keyof T as `${string & K}Channel`]: string;
+};
+
 export type PaletteColorExtend = {
   lighter: string;
   darker: string;
@@ -61,14 +67,17 @@ export interface CustomShadows {
   z16?: string;
   z20?: string;
   z24?: string;
+  //
   primary?: string;
   secondary?: string;
   info?: string;
   success?: string;
   warning?: string;
   error?: string;
-  card?: string;
+  //
+  drawer?: string;
   dialog?: string;
+  card?: string;
   dropdown?: string;
 }
 
@@ -111,26 +120,3 @@ export type ThemeOptions = Omit<MuiThemeOptions, "components"> &
   };
 
 //
-
-export type AvatarGroupExtendVariant = {
-  compact: true;
-};
-
-export type ButtonExtendVariant = {
-  soft: true;
-};
-
-export type ButtonGroupExtendVariant = {
-  soft: true;
-};
-
-export type ChipExtendVariant = {
-  soft: true;
-};
-
-export type FabExtendVariant = {
-  outlined: true;
-  outlinedExtended: true;
-  soft: true;
-  softExtended: true;
-};

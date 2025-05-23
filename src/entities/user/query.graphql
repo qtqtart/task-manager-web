@@ -1,0 +1,14 @@
+fragment User on UserModel {
+  id
+  username
+  email
+  imageUrl
+  firstName
+  lastName
+}
+
+query GetAllUsers {
+  getAllUsers {
+    ...User
+  }
+}

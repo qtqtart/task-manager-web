@@ -1,12 +1,16 @@
 import { Components, Theme } from "@mui/material";
 
+const sx = {
+  right: "10px",
+  width: "18px",
+  height: "18px",
+  top: "calc(50% - 9px)",
+};
+
 const MuiSelect: Components<Theme>["MuiSelect"] = {
   styleOverrides: {
     icon: {
-      right: 10,
-      width: 18,
-      height: 18,
-      top: "calc(50% - 9px)",
+      ...sx,
     },
   },
 };
@@ -14,12 +18,9 @@ const MuiSelect: Components<Theme>["MuiSelect"] = {
 const MuiNativeSelect: Components<Theme>["MuiNativeSelect"] = {
   styleOverrides: {
     icon: {
-      right: 10,
-      width: 18,
-      height: 18,
-      top: "calc(50% - 9px)",
+      ...sx,
     },
   },
 };
 
-export const select = { MuiSelect, MuiNativeSelect };
+export default { MuiSelect, MuiNativeSelect };

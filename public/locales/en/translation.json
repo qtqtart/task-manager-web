@@ -20,12 +20,10 @@
     },
     "firstName": {
       "label": "First name",
-      "min": "First name must be at least 1 character",
       "max": "First name must be less than 255 characters"
     },
     "lastName": {
       "label": "Last name",
-      "min": "Last name must be at least 1 character",
       "max": "Last name must be less than 255 characters"
     },
     "password": {
@@ -41,6 +39,15 @@
     },
     "file": {
       "invalid": "Invalid file format"
+    },
+    "title": {
+      "label": "Title",
+      "min": "Title must be at least 1 character",
+      "max": "Title must be at must be less than 255 characters"
+    },
+    "description": {
+      "label": "Description",
+      "max": "Description must be at must be less than 1000 characters"
     }
   },
   "pages": {
@@ -57,5 +64,18 @@
   "project": "Project",
   "pageNotFound": "Page not found",
   "pageNotFoundDescription": "We couldn't find what you're looking for.",
-  "pageNotFoundButton": "Go to back"
+  "pageNotFoundButton": "Go to back",
+  "light": "Light",
+  "dark": "Dark",
+  "projectsNotFound": "Projects not found",
+  "tasksNotFound": "Tasks not found",
+  "createProject": "Create project",
+  "updateProject": "Update project",
+  "archive": "Archive",
+  "unarchive": "Unarchive",
+  "apply": "Apply",
+  "cancel": "Cancel",
+  "upload": "Upload",
+  "loading": "Loading",
+  "members": "Members"
 }

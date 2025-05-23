@@ -1,11 +1,9 @@
 import { Paper, Stack } from "@mui/material";
-import { useResponsive } from "@shared/hooks/use-responsive";
+import { AccountPopover } from "@widgets/account-popover";
 import { HeaderNavigation } from "@widgets/header-navigation";
 import { FC } from "react";
 
 export const Header: FC = () => {
-  const isOnlyXs = useResponsive("only", "xs");
-
   return (
     <Paper
       sx={{
@@ -14,34 +12,29 @@ export const Header: FC = () => {
         flexDirection: "row",
         alignItems: "center",
         paddingX: 1,
-        height: {
-          sm: "80px",
-          xs: "136px",
-        },
+        height: "80px",
       }}
     >
-      {isOnlyXs ? (
-        <>{"soon"}</>
-      ) : (
+      <Stack
+        sx={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          width: "100%",
+        }}
+      >
         <Stack
           sx={{
             flexDirection: "row",
             alignItems: "center",
-            justifyContent: "space-between",
-            width: "100%",
+            gap: 4,
           }}
         >
-          <Stack
-            sx={{
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 4,
-            }}
-          >
-            <HeaderNavigation />
-          </Stack>
+          <HeaderNavigation />
         </Stack>
-      )}
+
+        <AccountPopover />
+      </Stack>
     </Paper>
   );
 };

@@ -1,11 +1,12 @@
 import { TextField, TextFieldProps } from "@mui/material";
+import { memo, ReactElement } from "react";
+import { Controller, FieldValues, Path, useFormContext } from "react-hook-form";
+
 import {
   transformValue,
   transformValueOnBlur,
   transformValueOnChange,
-} from "minimal-shared/utils";
-import { memo, ReactElement } from "react";
-import { Controller, FieldValues, Path, useFormContext } from "react-hook-form";
+} from "./utils";
 
 type Props<T extends FieldValues> = {
   name: Path<T>;

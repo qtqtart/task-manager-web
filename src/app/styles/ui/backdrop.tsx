@@ -1,13 +1,16 @@
 import { Components, Theme } from "@mui/material";
-import { varAlpha } from "minimal-shared/utils";
+
+import { varAlpha } from "../utils";
 
 const MuiBackdrop: Components<Theme>["MuiBackdrop"] = {
   styleOverrides: {
     root: ({ theme }) => ({
       backgroundColor: varAlpha(theme.vars.palette.grey["800Channel"], 0.48),
     }),
-    invisible: { background: "transparent" },
+    invisible: {
+      background: "transparent",
+    },
   },
 };
 
-export const backdrop = { MuiBackdrop };
+export default { MuiBackdrop };

@@ -1,5 +1,6 @@
-import { avatarGroupClasses, Components, Theme } from "@mui/material";
-import { varAlpha } from "minimal-shared/utils";
+import { Components, Theme } from "@mui/material";
+
+import { varAlpha } from "../utils";
 
 const MuiAvatar: Components<Theme>["MuiAvatar"] = {
   styleOverrides: {
@@ -17,34 +18,25 @@ const MuiAvatar: Components<Theme>["MuiAvatar"] = {
         },
       ],
     },
-    rounded: ({ theme }) => ({ borderRadius: theme.shape.borderRadius * 1.5 }),
+    rounded: ({ theme }) => ({
+      borderRadius: 1.5 * theme.shape.borderRadius,
+    }),
   },
 };
 
 const MuiAvatarGroup: Components<Theme>["MuiAvatarGroup"] = {
-  defaultProps: { max: 3 },
+  defaultProps: {
+    max: 3,
+  },
   styleOverrides: {
-    root: ({ ownerState }) => ({
+    root: {
       justifyContent: "flex-end",
-      ...(ownerState.variant === "compact" && {
-        width: 40,
-        height: 40,
-        position: "relative",
-        [`& .${avatarGroupClasses.avatar}`]: {
-          margin: 0,
-          width: 28,
-          height: 28,
-          position: "absolute",
-          "&:first-of-type": { left: 0, bottom: 0, zIndex: 9 },
-          "&:last-of-type": { top: 0, right: 0 },
-        },
-      }),
-    }),
+    },
     avatar: ({ theme }) => ({
-      fontSize: 16,
+      fontSize: "16px",
       fontWeight: theme.typography.fontWeightSemiBold,
       "&:first-of-type": {
-        fontSize: 12,
+        fontSize: "12px",
         color: theme.vars.palette.primary.dark,
         backgroundColor: theme.vars.palette.primary.lighter,
       },
@@ -52,4 +44,4 @@ const MuiAvatarGroup: Components<Theme>["MuiAvatarGroup"] = {
   },
 };
 
-export const avatar = { MuiAvatar, MuiAvatarGroup };
+export default { MuiAvatar, MuiAvatarGroup };

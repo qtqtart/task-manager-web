@@ -1,5 +1,5 @@
 import { ROUTER_PATHS } from "@app/router";
-import { useAuthState } from "@features/auth/auth-state";
+import { useIsAuthStore } from "@features/auth/is-auth";
 import { useSignUpMutation } from "@generated";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Alert, Button, Link, Stack, Typography } from "@mui/material";
@@ -30,28 +30,23 @@ export const SignUpForm: FC = () => {
   });
   const { reset: formReset } = form;
 
-  const authState = useAuthState();
-  const [signUp, signUpState] = useSignUpMutation();
-  const handleSubmit = useCallback(
-    async (input: F) => {
-      console.log(input.file);
-      const res = await signUp({
-        input: {
-          firstName: input.firstName,
-          lastName: input.lastName,
-          username: input.username,
-          email: input.email,
-          password: input.password,
-          passwordConfirm: input.passwordConfirm,
-        },
-        file: input.file,
-      }).unwrap();
-      if (res) {
-        authState.set(true);
-        formReset(defaultValues);
-      }
+  const authState = useIsAuthStore();
+  const [signUp, signUpState] = useSignUpMutation({
+    onCompleted: () => {
+      authState.set(true);
+      formReset(defaultValues);
     },
-    [signUp, authState, formReset, defaultValues],
+  });
+  const handleSubmit = useCallback(
+    ({ file, ...input }: F) => {
+      signUp({
+        variables: {
+          input,
+          file,
+        },
+      });
+    },
+    [signUp],
   );
 
   const showPassword = useShowPassword();
@@ -140,7 +135,7 @@ export const SignUpForm: FC = () => {
             placeholder={t("formSchema.passwordConfirm.label")}
           />
 
-          {signUpState.isError && (
+          {signUpState.error && (
             <Alert
               severity="error"
               sx={{
@@ -169,7 +164,7 @@ export const SignUpForm: FC = () => {
         type="submit"
         variant="contained"
         size="medium"
-        loading={signUpState.isLoading}
+        loading={signUpState.loading}
       >
         {t("signUp")}
       </Button>

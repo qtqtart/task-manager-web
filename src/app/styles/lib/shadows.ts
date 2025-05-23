@@ -1,6 +1,6 @@
 import { Shadows, SupportedColorScheme } from "@mui/material/styles";
-import { varAlpha } from "minimal-shared/utils";
 
+import { varAlpha } from "../utils";
 import { common, grey } from "./palette";
 
 const createShadows = (colorChannel: string): Shadows => {

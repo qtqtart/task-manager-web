@@ -5,11 +5,12 @@ import {
   CSSObject,
   Theme,
 } from "@mui/material";
-import { varAlpha } from "minimal-shared/utils";
+
+import { varAlpha } from "../utils";
 
 const COLORS = ["info", "success", "warning", "error"] as const;
 
-const styleColors = (
+const overrideColors = (
   ownerState: AlertProps,
   styles: (val: (typeof COLORS)[number]) => CSSObject,
 ) => {
@@ -27,7 +28,7 @@ const MuiAlert: Components<Theme>["MuiAlert"] = {
     icon: { opacity: 1 },
     standard: ({ ownerState, theme }) => {
       const styled = {
-        colors: styleColors(ownerState, (color) => ({
+        colors: overrideColors(ownerState, (color) => ({
           color: theme.vars.palette[color].darker,
           backgroundColor: theme.vars.palette[color].lighter,
           ...theme.applyStyles("dark", {
@@ -46,7 +47,7 @@ const MuiAlert: Components<Theme>["MuiAlert"] = {
     },
     filled: ({ ownerState, theme }) => {
       const styled = {
-        colors: styleColors(ownerState, (color) => ({
+        colors: overrideColors(ownerState, (color) => ({
           color: theme.vars.palette[color].contrastText,
         })),
       };
@@ -54,7 +55,7 @@ const MuiAlert: Components<Theme>["MuiAlert"] = {
     },
     outlined: ({ ownerState, theme }) => {
       const styled = {
-        colors: styleColors(ownerState, (color) => ({
+        colors: overrideColors(ownerState, (color) => ({
           backgroundColor: varAlpha(
             theme.vars.palette[color].mainChannel,
             0.08,
@@ -83,4 +84,4 @@ const MuiAlertTitle: Components<Theme>["MuiAlertTitle"] = {
   },
 };
 
-export const alert = { MuiAlert, MuiAlertTitle };
+export default { MuiAlert, MuiAlertTitle };

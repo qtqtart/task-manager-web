@@ -1,4 +1,4 @@
-query getCurrentUser {
+query GetCurrentUser {
   getCurrentUser {
     id
     username

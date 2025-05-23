@@ -61,11 +61,11 @@ const RHFUploadAvatar_ = <T extends FieldValues>({ name }: Props<T>) => {
           >
             {!file && <UploadIcon />}
           </Avatar>
+
           <input {...getInputProps()} />
 
           {file && (
             <Fab
-              variant="soft"
               color="default"
               size="small"
               onClick={handleRemoveFile}

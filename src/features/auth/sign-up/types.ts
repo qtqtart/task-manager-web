@@ -27,20 +27,16 @@ export const SignUpSchema = z
       }),
     firstName: z
       .string()
-      .min(1, {
-        message: i18n.t("formSchema.firstName.min"),
-      })
       .max(255, {
         message: i18n.t("formSchema.firstName.max"),
-      }),
+      })
+      .optional(),
     lastName: z
       .string()
-      .min(1, {
-        message: i18n.t("formSchema.lastName.min"),
-      })
       .max(255, {
         message: i18n.t("formSchema.lastName.max"),
-      }),
+      })
+      .optional(),
     password: z
       .string()
       .min(6, {

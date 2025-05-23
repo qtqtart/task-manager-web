@@ -1,6 +1,6 @@
+import { varAlpha } from "@app/styles";
 import { CSSObject, Theme } from "@mui/material/styles";
 import { styled } from "@mui/material/styles";
-import { varAlpha } from "minimal-shared/utils";
 
 import { PopoverArrow } from "./types";
 

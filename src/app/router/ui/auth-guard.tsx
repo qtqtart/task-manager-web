@@ -1,11 +1,11 @@
-import { useAuthState } from "@features/auth/auth-state";
+import { useIsAuthStore } from "@features/auth/is-auth";
 import { FC, PropsWithChildren } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 
 import { ROUTER_PATHS } from "../consts";
 
 export const AuthGuard: FC<PropsWithChildren> = ({ children }) => {
-  const authState = useAuthState();
+  const authState = useIsAuthStore();
 
   const { pathname } = useLocation();
 

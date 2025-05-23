@@ -6,4 +6,4 @@ const MuiMenuItem: Components<Theme>["MuiMenuItem"] = {
   },
 };
 
-export const menu = { MuiMenuItem };
+export default { MuiMenuItem };

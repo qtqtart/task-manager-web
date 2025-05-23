@@ -19,4 +19,4 @@ const MuiRadio: Components<Theme>["MuiRadio"] = {
   },
 };
 
-export const radio = { MuiRadio };
+export default { MuiRadio };

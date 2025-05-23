@@ -5,22 +5,27 @@ import {
   outlinedInputClasses,
   Theme,
 } from "@mui/material";
-import { varAlpha } from "minimal-shared/utils";
+
+import { varAlpha } from "../utils";
 
 const MuiInputBase: Components<Theme>["MuiInputBase"] = {
   styleOverrides: {
     root: ({ theme }) => ({
       [`&.${inputBaseClasses.disabled}`]: {
-        "& svg": { color: theme.vars.palette.text.disabled },
+        "& svg": {
+          color: theme.vars.palette.text.disabled,
+        },
       },
-      [`& .${inputBaseClasses.input}:focus`]: { borderRadius: "inherit" },
+      [`& .${inputBaseClasses.input}:focus`]: {
+        borderRadius: "inherit",
+      },
     }),
     input: ({ theme }) => ({
-      fontSize: theme.typography.pxToRem(15),
-      [theme.breakpoints.down("sm")]: {
-        fontSize: theme.typography.pxToRem(16),
+      fontSize: theme.typography.pxToRem(14),
+      "&::placeholder": {
+        opacity: 1,
+        color: theme.vars.palette.text.disabled,
       },
-      "&::placeholder": { opacity: 1, color: theme.vars.palette.text.disabled },
     }),
   },
 };
@@ -34,7 +39,9 @@ const MuiInput: Components<Theme>["MuiInput"] = {
           0.32,
         ),
       },
-      "&::after": { borderBottomColor: theme.vars.palette.text.primary },
+      "&::after": {
+        borderBottomColor: theme.vars.palette.text.primary,
+      },
     }),
   },
 };
@@ -59,7 +66,7 @@ const MuiOutlinedInput: Components<Theme>["MuiOutlinedInput"] = {
       },
     }),
     notchedOutline: ({ theme }) => ({
-      borderColor: varAlpha(theme.vars.palette.grey["500Channel"], 0.2),
+      borderColor: varAlpha(theme.vars.palette.grey["500Channel"], 0.24),
       transition: theme.transitions.create(["border-color"], {
         duration: theme.transitions.duration.shortest,
       }),
@@ -93,11 +100,13 @@ const MuiFilledInput: Components<Theme>["MuiFilledInput"] = {
 };
 
 const MuiTextField: Components<Theme>["MuiTextField"] = {
-  defaultProps: { variant: "outlined" },
+  defaultProps: {
+    variant: "outlined",
+  },
   styleOverrides: {},
 };
 
-export const textfield = {
+export default {
   MuiInput,
   MuiInputBase,
   MuiFilledInput,

@@ -1,14 +1,18 @@
 import { createTheme as createMuiTheme } from "@mui/material";
 
 import { ThemeOptions } from "../types";
+import { breakpoints } from "./breakpoints";
 import { components } from "./components";
 import { customShadows } from "./custom-shadow";
 import { palette } from "./palette";
 import { shadows } from "./shadows";
+import { typography } from "./typography";
 
 export const createTheme = () => {
   const themeOptions: ThemeOptions = {
-    shape: { borderRadius: 8 },
+    shape: {
+      borderRadius: 8,
+    },
     colorSchemes: {
       light: {
         palette: palette.light,
@@ -25,7 +29,9 @@ export const createTheme = () => {
       cssVarPrefix: "",
       colorSchemeSelector: "data-color-scheme",
     },
+    breakpoints,
     components,
+    typography,
   };
 
   return createMuiTheme(themeOptions);

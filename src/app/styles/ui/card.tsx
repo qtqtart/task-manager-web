@@ -5,7 +5,7 @@ const MuiCard: Components<Theme>["MuiCard"] = {
     root: ({ theme }) => ({
       position: "relative",
       boxShadow: theme.vars.customShadows.card,
-      borderRadius: theme.shape.borderRadius * 2,
+      borderRadius: 2 * theme.shape.borderRadius,
       zIndex: 0,
     }),
   },
@@ -13,16 +13,23 @@ const MuiCard: Components<Theme>["MuiCard"] = {
 
 const MuiCardHeader: Components<Theme>["MuiCardHeader"] = {
   defaultProps: {
-    titleTypographyProps: { variant: "h6" },
-    subheaderTypographyProps: { variant: "body2", marginTop: "4px" },
+    titleTypographyProps: {
+      variant: "h6",
+    },
   },
   styleOverrides: {
-    root: ({ theme }) => ({ padding: theme.spacing(3, 3, 0) }),
+    root: ({ theme }) => ({
+      padding: theme.spacing(3, 3, 0),
+    }),
   },
 };
 
 const MuiCardContent: Components<Theme>["MuiCardContent"] = {
-  styleOverrides: { root: ({ theme }) => ({ padding: theme.spacing(3) }) },
+  styleOverrides: {
+    root: ({ theme }) => ({
+      padding: theme.spacing(3),
+    }),
+  },
 };
 
-export const card = { MuiCard, MuiCardHeader, MuiCardContent };
+export default { MuiCard, MuiCardHeader, MuiCardContent };

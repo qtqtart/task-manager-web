@@ -2,13 +2,12 @@ import { Components, listClasses, Theme } from "@mui/material";
 
 const MuiPopover: Components<Theme>["MuiPopover"] = {
   styleOverrides: {
-    paper: {
+    paper: ({ theme }) => ({
       [`& .${listClasses.root}`]: {
-        paddingTop: 0,
-        paddingBottom: 0,
+        padding: theme.spacing(2),
       },
-    },
+    }),
   },
 };
 
-export const popover = { MuiPopover };
+export default { MuiPopover };

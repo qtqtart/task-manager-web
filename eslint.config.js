@@ -50,6 +50,7 @@ const config = tseslint.config(
       "@typescript-eslint/no-empty-object-type": "off",
       //
       "react-x/no-array-index-key": "off",
+      "react-x/jsx-key-before-spread": "off",
       //
       "simple-import-sort/imports": "error",
       "simple-import-sort/exports": "error",
