@@ -1,14 +1,18 @@
 import { router } from "@app/router";
 import { FC } from "react";
+import { Provider } from "react-redux";
 import { RouterProvider } from "react-router-dom";
+import { PersistGate } from "redux-persist/integration/react";
 
-import { WithApolloProvider } from "./providers/with-apollo-provider";
 import { WithThemeProvider } from "./providers/with-theme-provider";
+import { persistor, store } from "./store";
 
 export const Root: FC = () => (
-  <WithApolloProvider>
-    <WithThemeProvider>
-      <RouterProvider router={router} />
-    </WithThemeProvider>
-  </WithApolloProvider>
+  <Provider store={store}>
+    <PersistGate persistor={persistor}>
+      <WithThemeProvider>
+        <RouterProvider router={router} />
+      </WithThemeProvider>
+    </PersistGate>
+  </Provider>
 );

@@ -1,5 +1,4 @@
 import { varAlpha } from "@app/styles";
-import { useGetAllUsersLazyQuery } from "@generated";
 import { Check } from "@mui/icons-material";
 import {
   Autocomplete,
@@ -13,16 +12,26 @@ import {
   TextFieldProps,
   useTheme,
 } from "@mui/material";
-import { memo, ReactElement, useCallback, useMemo, useState } from "react";
+import { memo, ReactElement, useCallback, useState } from "react";
 import { Controller, FieldValues, Path, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
 type Props<T extends FieldValues> = {
   name: Path<T>;
+  loading: boolean;
+  trigger: () => void;
+  options: {
+    id: string;
+    username: string;
+    imageUrl: string | undefined;
+  }[];
 } & Pick<TextFieldProps, "label" | "placeholder">;
 
 const RHFUserPicker_ = <T extends FieldValues>({
   name,
+  loading,
+  trigger,
+  options,
   label,
   placeholder,
 }: Props<T>) => {
@@ -30,17 +39,6 @@ const RHFUserPicker_ = <T extends FieldValues>({
   const theme = useTheme();
 
   const { control } = useFormContext<T>();
-
-  const [trigger, usersState] = useGetAllUsersLazyQuery();
-  const options = useMemo(
-    () =>
-      usersState.data?.getAllUsers?.map((user) => ({
-        id: user.id,
-        username: user.username,
-        imageUrl: user.imageUrl ?? undefined,
-      })) || [],
-    [usersState.data?.getAllUsers],
-  );
 
   const [open, setOpen] = useState(false);
   const handleOpen = useCallback(() => {
@@ -58,7 +56,7 @@ const RHFUserPicker_ = <T extends FieldValues>({
       render={({ field }) => (
         <Autocomplete
           multiple
-          loading={usersState.loading}
+          loading={loading}
           loadingText={`${t("loading")}...`}
           open={open}
           onOpen={handleOpen}
@@ -82,7 +80,7 @@ const RHFUserPicker_ = <T extends FieldValues>({
                 key={option.id}
                 label={option.username}
                 avatar={
-                  <Avatar src={option.imageUrl}>
+                  <Avatar src={option.imageUrl} alt={option.username}>
                     {option.username[0].toUpperCase()}
                   </Avatar>
                 }

@@ -1,22 +1,22 @@
-import { useIsAuthStore } from "@features/auth/is-auth";
-import { useSignOutMutation } from "@generated";
+import { useAuthState } from "@features/auth/auth-state";
 import { Button } from "@mui/material";
 import { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 
+import { useSignOutMutation } from "../api";
+
 export const SignOutButton: FC = () => {
   const { t } = useTranslation();
 
-  const authState = useIsAuthStore();
-  const [signOut, signOutState] = useSignOutMutation({
-    onCompleted: () => {
-      authState.set(false);
-    },
-  });
+  const authState = useAuthState();
+  const [signOut, signOutState] = useSignOutMutation();
 
-  const handleSignOut = useCallback(() => {
-    signOut();
-  }, [signOut]);
+  const handleSignOut = useCallback(async () => {
+    const res = await signOut().unwrap();
+    if (res) {
+      authState.set(false);
+    }
+  }, [signOut, authState]);
 
   return (
     <Button
@@ -24,7 +24,7 @@ export const SignOutButton: FC = () => {
       variant="contained"
       color="error"
       size="medium"
-      loading={signOutState.loading}
+      loading={signOutState.isLoading}
       onClick={handleSignOut}
     >
       {t("signOut")}

@@ -1,4 +1,4 @@
-import { useCurrentUser } from "@features/auth/is-auth";
+import { useGetCurrentUserQuery } from "@entities/user";
 import { SignOutButton } from "@features/auth/sign-out";
 import { Avatar, Card, Skeleton, Stack, Typography } from "@mui/material";
 import { usePopover } from "@shared/hooks/use-popover";
@@ -7,14 +7,13 @@ import { ToggleThemeMode } from "@widgets/toggle-theme-mode";
 import { FC } from "react";
 
 export const AccountPopover: FC = () => {
-  const popover = usePopover();
+  const { data: user, isLoading } = useGetCurrentUserQuery();
 
-  const userState = useCurrentUser();
-  const user = userState.data?.getCurrentUser;
+  const popover = usePopover();
 
   return (
     <>
-      {userState.loading ? (
+      {isLoading ? (
         <Skeleton
           sx={{
             width: "40px",
@@ -24,6 +23,7 @@ export const AccountPopover: FC = () => {
       ) : (
         <Avatar
           src={user?.imageUrl ?? undefined}
+          alt={user?.username}
           onClick={popover.onOpen}
           sx={(theme) => ({
             width: "40px",

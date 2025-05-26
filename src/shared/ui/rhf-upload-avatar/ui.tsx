@@ -29,7 +29,7 @@ const RHFUploadAvatar_ = <T extends FieldValues>({ name }: Props<T>) => {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: handleDropFile,
     accept: {
-      "image/*": [".jpg", ".jpeg", ".png", ".webp", "gif"],
+      "image/*": [".jpg", ".jpeg", ".png", ".webp", ".gif"],
     },
     maxFiles: 1,
     maxSize: 10 * 1024 * 1024,
@@ -48,7 +48,7 @@ const RHFUploadAvatar_ = <T extends FieldValues>({ name }: Props<T>) => {
           <Avatar
             variant="rounded"
             {...(file && {
-              src: URL.createObjectURL(file),
+              src: typeof file === "string" ? file : URL.createObjectURL(file),
             })}
             {...getRootProps()}
             sx={{
@@ -66,6 +66,7 @@ const RHFUploadAvatar_ = <T extends FieldValues>({ name }: Props<T>) => {
 
           {file && (
             <Fab
+              variant="circular"
               color="default"
               size="small"
               onClick={handleRemoveFile}

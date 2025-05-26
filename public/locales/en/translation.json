@@ -77,5 +77,6 @@
   "cancel": "Cancel",
   "upload": "Upload",
   "loading": "Loading",
-  "members": "Members"
+  "members": "Members",
+  "unknown_error": "Unknown error"
 }

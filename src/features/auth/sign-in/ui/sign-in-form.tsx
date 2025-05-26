@@ -1,6 +1,5 @@
 import { ROUTER_PATHS } from "@app/router";
-import { useIsAuthStore } from "@features/auth/is-auth";
-import { useSignInMutation } from "@generated";
+import { useAuthState } from "@features/auth/auth-state";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Alert, Button, Link, Stack, Typography } from "@mui/material";
 import { useShowPassword } from "@shared/hooks/use-show-password";
@@ -12,6 +11,7 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Link as RouterLink } from "react-router-dom";
 
+import { useSignInMutation } from "../api";
 import { useFormDefaultValues } from "../hooks";
 import { SignInSchema, SignInSchemaValues } from "../types";
 
@@ -29,18 +29,17 @@ export const SignInForm: FC = () => {
   });
   const { reset: formReset } = form;
 
-  const authState = useIsAuthStore();
-  const [signIn, signInState] = useSignInMutation({
-    onCompleted: () => {
-      authState.set(true);
-      formReset(defaultValues);
-    },
-  });
+  const authState = useAuthState();
+  const [signIn, signInState] = useSignInMutation();
   const handleSubmit = useCallback(
-    (input: F) => {
-      signIn({ variables: { input } });
+    async (values: F) => {
+      const res = await signIn(values).unwrap();
+      if (res) {
+        authState.set(true);
+        formReset(defaultValues);
+      }
     },
-    [signIn],
+    [signIn, authState, formReset, defaultValues],
   );
 
   const showPassword = useShowPassword();
@@ -92,6 +91,7 @@ export const SignInForm: FC = () => {
               severity="error"
               sx={{
                 width: "100%",
+                wordBreak: "break-all",
               }}
             >
               {signInState.error.message}
@@ -116,7 +116,7 @@ export const SignInForm: FC = () => {
         type="submit"
         variant="contained"
         size="medium"
-        loading={signInState.loading}
+        loading={signInState.isLoading}
       >
         {t("signIn")}
       </Button>

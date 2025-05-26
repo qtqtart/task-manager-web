@@ -1,6 +1,5 @@
 import { ROUTER_PATHS } from "@app/router";
-import { useIsAuthStore } from "@features/auth/is-auth";
-import { useSignUpMutation } from "@generated";
+import { useAuthState } from "@features/auth/auth-state";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Alert, Button, Link, Stack, Typography } from "@mui/material";
 import { useShowPassword } from "@shared/hooks/use-show-password";
@@ -13,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Link as RouterLink } from "react-router-dom";
 
+import { useSignUpMutation } from "../api";
 import { useFormDefaultValues } from "../hooks";
 import { SignUpSchema, SignUpSchemaValues } from "../types";
 
@@ -30,23 +30,21 @@ export const SignUpForm: FC = () => {
   });
   const { reset: formReset } = form;
 
-  const authState = useIsAuthStore();
-  const [signUp, signUpState] = useSignUpMutation({
-    onCompleted: () => {
-      authState.set(true);
-      formReset(defaultValues);
-    },
-  });
+  const authState = useAuthState();
+  const [signUp, signUpState] = useSignUpMutation();
   const handleSubmit = useCallback(
-    ({ file, ...input }: F) => {
-      signUp({
-        variables: {
-          input,
-          file,
-        },
-      });
+    async ({ file, ...values }: F) => {
+      const imageUrl = undefined;
+      const res = await signUp({
+        ...values,
+        imageUrl,
+      }).unwrap();
+      if (res) {
+        authState.set(true);
+        formReset(defaultValues);
+      }
     },
-    [signUp],
+    [signUp, authState, formReset, defaultValues],
   );
 
   const showPassword = useShowPassword();
@@ -140,6 +138,7 @@ export const SignUpForm: FC = () => {
               severity="error"
               sx={{
                 width: "100%",
+                wordBreak: "break-all",
               }}
             >
               {signUpState.error.message}
@@ -164,7 +163,7 @@ export const SignUpForm: FC = () => {
         type="submit"
         variant="contained"
         size="medium"
-        loading={signUpState.loading}
+        loading={signUpState.isLoading}
       >
         {t("signUp")}
       </Button>

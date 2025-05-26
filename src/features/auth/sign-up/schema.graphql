@@ -1,3 +1,0 @@
-mutation SignUp($input: SignUpInput!, $file: Upload) {
-  signUp(input: $input, file: $file)
-}

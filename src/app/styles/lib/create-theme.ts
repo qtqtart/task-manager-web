@@ -11,7 +11,7 @@ import { typography } from "./typography";
 export const createTheme = () => {
   const themeOptions: ThemeOptions = {
     shape: {
-      borderRadius: 8,
+      borderRadius: 4,
     },
     colorSchemes: {
       light: {
