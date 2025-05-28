@@ -14,7 +14,7 @@ export const SignOutButton: FC = () => {
   const handleSignOut = useCallback(async () => {
     const res = await signOut().unwrap();
     if (res) {
-      authState.set(false);
+      authState.set({ isAuth: false });
     }
   }, [signOut, authState]);
 

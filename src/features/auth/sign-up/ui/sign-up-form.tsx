@@ -1,12 +1,15 @@
 import { ROUTER_PATHS } from "@app/router";
 import { useAuthState } from "@features/auth/auth-state";
+import { useUploadMutation } from "@features/upload";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Alert, Button, Link, Stack, Typography } from "@mui/material";
 import { useShowPassword } from "@shared/hooks/use-show-password";
-import { RHFForm } from "@shared/ui/rhf-form";
-import { RHFTextField } from "@shared/ui/rhf-textfield";
-import { RHFTextFieldPassword } from "@shared/ui/rhf-textfield-password";
-import { RHFUploadAvatar } from "@shared/ui/rhf-upload-avatar";
+import {
+  RHFForm,
+  RHFTextField,
+  RHFTextFieldPassword,
+  RHFUploadAvatar,
+} from "@shared/ui/rhf";
 import { FC, useCallback, useId } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -21,30 +24,37 @@ type F = SignUpSchemaValues;
 export const SignUpForm: FC = () => {
   const { t } = useTranslation();
 
-  const id = useId();
   const { defaultValues } = useFormDefaultValues();
+  const formId = useId();
   const form = useForm<F>({
     mode: "onSubmit",
     resolver: zodResolver(SignUpSchema),
     defaultValues,
   });
-  const { reset: formReset } = form;
+  const { reset } = form;
 
   const authState = useAuthState();
+  const [upload] = useUploadMutation();
   const [signUp, signUpState] = useSignUpMutation();
   const handleSubmit = useCallback(
     async ({ file, ...values }: F) => {
-      const imageUrl = undefined;
+      let imageUrl: string | undefined;
+      if (file) {
+        imageUrl = await upload({ file }).unwrap();
+      }
+
       const res = await signUp({
         ...values,
-        imageUrl,
+        ...(imageUrl && {
+          imageUrl,
+        }),
       }).unwrap();
       if (res) {
-        authState.set(true);
-        formReset(defaultValues);
+        authState.set({ isAuth: true });
+        reset(defaultValues);
       }
     },
-    [signUp, authState, formReset, defaultValues],
+    [upload, signUp, authState, reset, defaultValues],
   );
 
   const showPassword = useShowPassword();
@@ -54,6 +64,7 @@ export const SignUpForm: FC = () => {
       sx={{
         flexDirection: "column",
         gap: 3,
+        height: "100%",
       }}
     >
       <Stack
@@ -69,7 +80,7 @@ export const SignUpForm: FC = () => {
       </Stack>
 
       <RHFForm<F>
-        id={id}
+        id={formId}
         form={form}
         onSubmit={form.handleSubmit(handleSubmit)}
       >
@@ -107,7 +118,16 @@ export const SignUpForm: FC = () => {
               />
             </Stack>
 
-            <RHFUploadAvatar<F> name="file" />
+            <RHFUploadAvatar<F>
+              name="file"
+              sx={{
+                height: "124px",
+                width: {
+                  sm: "124px",
+                  xs: "100%",
+                },
+              }}
+            />
           </Stack>
 
           <RHFTextField<F>
@@ -159,7 +179,7 @@ export const SignUpForm: FC = () => {
 
       <Button
         fullWidth
-        form={id}
+        form={formId}
         type="submit"
         variant="contained"
         size="medium"

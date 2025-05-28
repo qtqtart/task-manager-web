@@ -37,9 +37,6 @@
       "max": "Password confirmation must be less than 255 characters",
       "mismatch": "Passwords do not match"
     },
-    "file": {
-      "invalid": "Invalid file format"
-    },
     "title": {
       "label": "Title",
       "min": "Title must be at least 1 character",
@@ -48,6 +45,10 @@
     "description": {
       "label": "Description",
       "max": "Description must be at must be less than 1000 characters"
+    },
+    "members": {
+      "label": "Members",
+      "placeholder": "Select members for project"
     }
   },
   "pages": {
@@ -72,11 +73,14 @@
   "createProject": "Create project",
   "updateProject": "Update project",
   "archive": "Archive",
+  "archived": "Archived",
   "unarchive": "Unarchive",
   "apply": "Apply",
   "cancel": "Cancel",
   "upload": "Upload",
   "loading": "Loading",
   "members": "Members",
-  "unknown_error": "Unknown error"
+  "unknown_error": "Unknown error",
+  "options_not_found": "Options not found",
+  "edit": "Edit"
 }

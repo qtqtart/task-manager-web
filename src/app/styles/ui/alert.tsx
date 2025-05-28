@@ -78,6 +78,7 @@ const MuiAlert: Components<Theme>["MuiAlert"] = {
 const MuiAlertTitle: Components<Theme>["MuiAlertTitle"] = {
   styleOverrides: {
     root: ({ theme }) => ({
+      width: "100%",
       marginBottom: theme.spacing(0.5),
       fontWeight: theme.typography.fontWeightSemiBold,
     }),

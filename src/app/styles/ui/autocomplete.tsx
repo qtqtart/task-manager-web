@@ -1,4 +1,3 @@
-import { ArrowDownward as ArrowDownwardIcon } from "@mui/icons-material";
 import {
   autocompleteClasses,
   Components,
@@ -9,9 +8,6 @@ import {
 import { varAlpha } from "../utils";
 
 const MuiAutocomplete: Components<Theme>["MuiAutocomplete"] = {
-  defaultProps: {
-    popupIcon: <ArrowDownwardIcon />,
-  },
   styleOverrides: {
     root: ({ theme }) => ({
       [`& span.${autocompleteClasses.tag}`]: {
@@ -35,6 +31,11 @@ const MuiAutocomplete: Components<Theme>["MuiAutocomplete"] = {
     listbox: {
       padding: 0,
     },
+    paper: ({ theme }) => ({
+      borderColor: varAlpha(theme.vars.palette.grey["500Channel"], 0.32),
+      borderWidth: "1px",
+      borderStyle: "solid",
+    }),
   },
 };
 

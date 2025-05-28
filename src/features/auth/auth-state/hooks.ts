@@ -1,15 +1,15 @@
 import { useRootDispatch, useRootSelector } from "@app/store";
 import { useCallback } from "react";
 
-import { AuthState, authStateSlice } from "./slice";
+import { authSlice, AuthState } from "./slice";
 
 export const useAuthState = () => {
   const authState = useRootSelector((s) => s.authState);
 
   const d = useRootDispatch();
   const set = useCallback(
-    (isAuth: AuthState["isAuth"]) => {
-      d(authStateSlice.actions.set({ isAuth }));
+    (payload: Partial<AuthState>) => {
+      d(authSlice.actions.set(payload));
     },
     [d],
   );

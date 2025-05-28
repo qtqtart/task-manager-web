@@ -1,24 +1,18 @@
-import { useProjectFiltersStore } from "@features/project-filters";
-import { useGetAllProjectsQuery } from "@generated";
+import { useProjectFiltersState } from "@features/project/project-filters-state";
 import { Skeleton, Stack, SxProps, Theme } from "@mui/material";
 import { Scrollbar } from "@shared/ui/scrollbar";
 import { ProjectsStartState } from "@widgets/start-states";
 import { FC } from "react";
 
+import { useGetProjectsQuery } from "../api";
 import { ProjectItem } from "./project-item";
 
 export const ProjectsList: FC = () => {
-  const projectFilters = useProjectFiltersStore();
-  const projectsState = useGetAllProjectsQuery({
-    fetchPolicy: "network-only",
-    variables: {
-      filters: {
-        isArchived: projectFilters.isArchived,
-        searchTerms: projectFilters.searchTerms,
-      },
-    },
+  const filters = useProjectFiltersState();
+  const projects = useGetProjectsQuery({
+    searchTerms: filters.searchTerms,
+    isArchived: filters.isArchived,
   });
-  const projects = projectsState.data?.getAllProjects ?? [];
 
   const sx: SxProps<Theme> = {
     display: "grid",
@@ -36,7 +30,7 @@ export const ProjectsList: FC = () => {
         maxHeight: "calc(100vh - 180px)",
       }}
     >
-      {projectsState.loading ? (
+      {projects.isLoading ? (
         <Stack sx={sx}>
           {Array.from({ length: 6 }, (_, i) => (
             <Skeleton key={i} />
@@ -44,11 +38,11 @@ export const ProjectsList: FC = () => {
         </Stack>
       ) : (
         <>
-          {projects.length === 0 ? (
+          {projects.data?.length === 0 ? (
             <ProjectsStartState />
           ) : (
             <Stack sx={sx}>
-              {projects.map((project) => (
+              {projects.data?.map((project) => (
                 <ProjectItem key={project.id} project={project} />
               ))}
             </Stack>

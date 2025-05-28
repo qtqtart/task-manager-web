@@ -1,6 +1,5 @@
-import { useCurrentUser } from "@features/auth/is-auth";
-import { UpdateProjectDialog } from "@features/project/update-project";
-import { ProjectFragment } from "@generated";
+import { useGetCurrentUserQuery } from "@entities/user";
+import { useUpdateProjectMutation } from "@features/project/update-project";
 import ArchiveIcon from "@mui/icons-material/Archive";
 import EditIcon from "@mui/icons-material/Edit";
 import UnarchiveIcon from "@mui/icons-material/Unarchive";
@@ -9,42 +8,65 @@ import {
   AvatarGroup,
   Box,
   Card,
+  Chip,
+  Divider,
   IconButton,
   Stack,
-  TextField,
+  Tooltip,
+  Typography,
   useTheme,
 } from "@mui/material";
 import { useDialog } from "@shared/hooks/use-dialog";
-import { FC, memo, useMemo } from "react";
+import { FC, memo, MouseEvent, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
+import { ProjectModel } from "../types";
 import { randomGradientBg } from "../utils";
 
 type Props = {
-  project: ProjectFragment;
+  project: ProjectModel;
 };
 
 const ProjectItem_: FC<Props> = ({ project }) => {
   const { t } = useTranslation();
   const theme = useTheme();
 
-  const { user } = useCurrentUser();
+  const navigate = useNavigate();
+
+  const user = useGetCurrentUserQuery();
+  const [updateProject, updateProjectState] = useUpdateProjectMutation();
+  const handleToggleIsArchived = useCallback(
+    async (e: MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+      await updateProject({
+        id: project.id,
+        data: {
+          isArchived: !project.isArchived,
+        },
+      }).unwrap();
+    },
+    [updateProject, project.id, project.isArchived],
+  );
+
+  const dialog = useDialog();
 
   const backgroundImage = useMemo(
     () => randomGradientBg(project.title),
     [project.title],
   );
 
-  const dialog = useDialog();
-
   return (
     <>
       <Card
+        onClick={() => navigate(project.id)}
         sx={{
+          position: "relative",
           display: "flex",
           flexDirection: "column",
           gap: 2,
           p: 1,
+          cursor: "pointer",
         }}
       >
         {project.imageUrl ? (
@@ -67,33 +89,42 @@ const ProjectItem_: FC<Props> = ({ project }) => {
               minHeight: "200px",
               maxHeight: "200px",
               backgroundImage,
-              backgroundBlendMode: "overlay",
             }}
           />
         )}
 
-        <TextField
-          label={t("formSchema.title.label")}
-          defaultValue={project.title}
-          slotProps={{
-            input: {
-              readOnly: true,
-            },
+        <Stack
+          sx={{
+            minWidth: 0,
+            flexGrow: 1,
+            gap: 2,
           }}
-        />
-
-        <TextField
-          label={t("formSchema.description.label")}
-          defaultValue={project.description}
-          slotProps={{
-            input: {
-              readOnly: true,
-            },
-          }}
-          multiline
-          minRows={3}
-          maxRows={3}
-        />
+        >
+          <Typography
+            variant="h6"
+            sx={{
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {project.title}
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{
+              color: "text.disabled",
+              overflow: "hidden",
+              wordBreak: "break-all",
+              textOverflow: "ellipsis",
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: "vertical",
+              display: "-webkit-box",
+            }}
+          >
+            {project.description}
+          </Typography>
+        </Stack>
 
         <Stack
           sx={{
@@ -103,19 +134,40 @@ const ProjectItem_: FC<Props> = ({ project }) => {
             width: "100%",
           }}
         >
-          <AvatarGroup>
-            {project.members.map((member) => (
+          <Stack
+            sx={{
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 1,
+            }}
+          >
+            <Tooltip title={project.owner.username}>
               <Avatar
-                key={member.id}
-                src={member.imageUrl ?? undefined}
-                alt={member.username}
+                src={project.owner.imageUrl ?? undefined}
+                alt={project.owner.username}
               >
-                {member.username[0].toUpperCase()}
+                {project.owner.username[0].toUpperCase()}
               </Avatar>
-            ))}
-          </AvatarGroup>
+            </Tooltip>
 
-          {user?.id === project.user.id && (
+            {project.members.length > 0 && (
+              <Divider flexItem orientation="vertical" />
+            )}
+
+            <AvatarGroup>
+              {project.members.map((member) => (
+                <Avatar
+                  key={member.id}
+                  src={member.imageUrl ?? undefined}
+                  alt={member.username}
+                >
+                  {member.username[0].toUpperCase()}
+                </Avatar>
+              ))}
+            </AvatarGroup>
+          </Stack>
+
+          {user.data?.id === project.owner.id && (
             <Stack
               sx={{
                 flexDirection: "row",
@@ -123,25 +175,45 @@ const ProjectItem_: FC<Props> = ({ project }) => {
                 gap: 0.5,
               }}
             >
-              <IconButton>
-                {project.isArchived ? <UnarchiveIcon /> : <ArchiveIcon />}
-              </IconButton>
+              {!project.isArchived && (
+                <Tooltip title={t("edit")}>
+                  <IconButton
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      dialog.onOpen();
+                    }}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                </Tooltip>
+              )}
 
-              <IconButton onClick={dialog.onOpen}>
-                <EditIcon />
-              </IconButton>
+              <Tooltip title={t(project.isArchived ? "unarchive" : "archive")}>
+                <IconButton
+                  loading={updateProjectState.isLoading}
+                  onClick={handleToggleIsArchived}
+                >
+                  {project.isArchived ? <UnarchiveIcon /> : <ArchiveIcon />}
+                </IconButton>
+              </Tooltip>
             </Stack>
           )}
         </Stack>
-      </Card>
 
-      {project.id && (
-        <UpdateProjectDialog
-          projectId={project.id}
-          open={dialog.open}
-          onClose={dialog.onClose}
-        />
-      )}
+        {project.isArchived && (
+          <Chip
+            color="error"
+            label={t("archived")}
+            sx={{
+              position: "absolute",
+              top: theme.spacing(2),
+              right: theme.spacing(2),
+              zIndex: 10,
+              typography: "caption",
+            }}
+          />
+        )}
+      </Card>
     </>
   );
 };

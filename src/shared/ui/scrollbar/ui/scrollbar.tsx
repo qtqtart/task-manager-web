@@ -3,7 +3,7 @@ import { ComponentProps, FC, memo } from "react";
 import { Props as ScrollbarProps } from "simplebar-react";
 
 import { scrollbarClasses } from "../consts";
-import { ScrollbarRoot } from "./scrollbar-root";
+import { ScrollbarRoot } from "./styles";
 
 type Props = ScrollbarProps &
   ComponentProps<"div"> & {

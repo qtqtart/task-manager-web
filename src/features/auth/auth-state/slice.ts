@@ -8,12 +8,12 @@ const initialState: AuthState = {
   isAuth: false,
 };
 
-export const authStateSlice = createSlice({
+export const authSlice = createSlice({
   name: "authState",
   initialState,
   reducers: {
-    set: (state, { payload }: PayloadAction<AuthState>) => {
-      state.isAuth = payload.isAuth;
+    set: (state, { payload }: PayloadAction<Partial<AuthState>>) => {
+      return { ...state, ...payload };
     },
   },
 });

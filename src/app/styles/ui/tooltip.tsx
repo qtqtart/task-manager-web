@@ -1,6 +1,9 @@
 import { Components, Theme, tooltipClasses } from "@mui/material";
 
 const MuiTooltip: Components<Theme>["MuiTooltip"] = {
+  defaultProps: {
+    placement: "top",
+  },
   styleOverrides: {
     tooltip: ({ theme }) => ({
       backgroundColor: theme.vars.palette.grey[800],

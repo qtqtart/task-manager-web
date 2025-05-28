@@ -1,5 +1,7 @@
 import { Components, Theme } from "@mui/material";
 
+import { varAlpha } from "../utils";
+
 const MuiDialog: Components<Theme>["MuiDialog"] = {
   defaultProps: {
     closeAfterTransition: false,
@@ -8,6 +10,11 @@ const MuiDialog: Components<Theme>["MuiDialog"] = {
     paper: ({ ownerState, theme }) => ({
       boxShadow: theme.vars.customShadows.dialog,
       borderRadius: 2 * theme.shape.borderRadius,
+
+      borderColor: varAlpha(theme.vars.palette.grey["500Channel"], 0.32),
+      borderWidth: "1px",
+      borderStyle: "solid",
+
       ...(!ownerState.fullScreen && {
         margin: theme.spacing(2),
       }),

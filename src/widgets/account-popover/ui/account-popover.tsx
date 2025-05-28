@@ -1,8 +1,14 @@
 import { useGetCurrentUserQuery } from "@entities/user";
 import { SignOutButton } from "@features/auth/sign-out";
-import { Avatar, Card, Skeleton, Stack, Typography } from "@mui/material";
+import {
+  Avatar,
+  Card,
+  Popover,
+  Skeleton,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { usePopover } from "@shared/hooks/use-popover";
-import { CustomPopover } from "@shared/ui/custom-popover";
 import { ToggleThemeMode } from "@widgets/toggle-theme-mode";
 import { FC } from "react";
 
@@ -35,7 +41,7 @@ export const AccountPopover: FC = () => {
         </Avatar>
       )}
 
-      <CustomPopover
+      <Popover
         anchorEl={popover.anchorEl}
         open={popover.open}
         onClose={popover.onClose}
@@ -48,11 +54,9 @@ export const AccountPopover: FC = () => {
           horizontal: "right",
         }}
         slotProps={{
-          backdrop: { invisible: true },
           paper: {
             sx: {
               width: 320,
-              p: 1,
             },
           },
         }}
@@ -75,7 +79,7 @@ export const AccountPopover: FC = () => {
           <ToggleThemeMode />
           <SignOutButton />
         </Stack>
-      </CustomPopover>
+      </Popover>
     </>
   );
 };

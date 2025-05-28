@@ -3,9 +3,7 @@ import { useAuthState } from "@features/auth/auth-state";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Alert, Button, Link, Stack, Typography } from "@mui/material";
 import { useShowPassword } from "@shared/hooks/use-show-password";
-import { RHFForm } from "@shared/ui/rhf-form";
-import { RHFTextField } from "@shared/ui/rhf-textfield";
-import { RHFTextFieldPassword } from "@shared/ui/rhf-textfield-password";
+import { RHFForm, RHFTextField, RHFTextFieldPassword } from "@shared/ui/rhf";
 import { FC, useCallback, useId } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -20,14 +18,14 @@ type F = SignInSchemaValues;
 export const SignInForm: FC = () => {
   const { t } = useTranslation();
 
-  const id = useId();
   const { defaultValues } = useFormDefaultValues();
+  const formId = useId();
   const form = useForm<F>({
     mode: "onSubmit",
     resolver: zodResolver(SignInSchema),
     defaultValues,
   });
-  const { reset: formReset } = form;
+  const { reset } = form;
 
   const authState = useAuthState();
   const [signIn, signInState] = useSignInMutation();
@@ -35,11 +33,11 @@ export const SignInForm: FC = () => {
     async (values: F) => {
       const res = await signIn(values).unwrap();
       if (res) {
-        authState.set(true);
-        formReset(defaultValues);
+        authState.set({ isAuth: true });
+        reset(defaultValues);
       }
     },
-    [signIn, authState, formReset, defaultValues],
+    [signIn, authState, reset, defaultValues],
   );
 
   const showPassword = useShowPassword();
@@ -64,7 +62,7 @@ export const SignInForm: FC = () => {
       </Stack>
 
       <RHFForm<F>
-        id={id}
+        id={formId}
         form={form}
         onSubmit={form.handleSubmit(handleSubmit)}
       >
@@ -112,7 +110,7 @@ export const SignInForm: FC = () => {
 
       <Button
         fullWidth
-        form={id}
+        form={formId}
         type="submit"
         variant="contained"
         size="medium"
