@@ -4,21 +4,28 @@ import { providesList } from "@shared/api/utils";
 
 import { ProjectModel } from "./types";
 
-export const { useGetProjectsQuery } = baseApi.injectEndpoints({
-  endpoints: ({ query }) => ({
-    getProjects: query<
-      ProjectModel[],
-      {
-        searchTerms?: string;
-        isArchived?: boolean;
-      }
-    >({
-      query: (params) => ({
-        method: "GET",
-        url: "/project",
-        params,
+export const { useGetProjectByIdQuery, useGetProjectsQuery } =
+  baseApi.injectEndpoints({
+    endpoints: ({ query }) => ({
+      getProjectById: query<ProjectModel, { id: string }>({
+        query: ({ id }) => ({
+          method: "GET",
+          url: `/project/${id}`,
+        }),
       }),
-      providesTags: (r) => providesList(r, TAG_TYPES.PROJECTS),
+      getProjects: query<
+        ProjectModel[],
+        {
+          searchTerms?: string;
+          isArchived?: boolean;
+        }
+      >({
+        query: (params) => ({
+          method: "GET",
+          url: "/project",
+          params,
+        }),
+        providesTags: (r) => providesList(r, TAG_TYPES.PROJECTS),
+      }),
     }),
-  }),
-});
+  });

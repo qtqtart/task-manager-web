@@ -5,7 +5,7 @@ import { TAG_TYPES } from "@shared/api/consts";
 interface UpdateProjectRequest {
   title?: string;
   description?: string;
-  imageUrl?: string;
+  imageUrl?: string | null;
   memberIds?: string[];
   isArchived?: boolean;
 }

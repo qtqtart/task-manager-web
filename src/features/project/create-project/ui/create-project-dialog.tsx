@@ -50,7 +50,7 @@ const CreateProjectDialog_: FC<Props> = ({ open, onClose }) => {
   const [createProject, createProjectState] = useCreateProjectMutation();
   const handleSubmit = useCallback(
     async ({ file, ...values }: F) => {
-      let imageUrl: string | undefined;
+      let imageUrl: string | null = null;
       if (file) {
         imageUrl = await upload({ file }).unwrap();
       }
@@ -59,9 +59,7 @@ const CreateProjectDialog_: FC<Props> = ({ open, onClose }) => {
         title: values.title,
         description: values.description,
         memberIds: values.memberIds.map(({ id }) => id),
-        ...(imageUrl && {
-          imageUrl,
-        }),
+        imageUrl,
       }).unwrap();
       if (res) {
         reset(defaultValues);
@@ -140,8 +138,8 @@ const CreateProjectDialog_: FC<Props> = ({ open, onClose }) => {
               label={t("formSchema.description.label")}
               placeholder={t("formSchema.description.label")}
               multiline
-              minRows={3}
-              maxRows={3}
+              minRows={5}
+              maxRows={5}
             />
 
             <RHFUserPicker<F>

@@ -9,6 +9,7 @@ import { Controller, FieldValues, Path, useFormContext } from "react-hook-form";
 type Props<T extends FieldValues> = {
   name: Path<T>;
   sx?: SxProps<Theme>;
+  imageUrl?: string;
 };
 
 const RHFUploadAvatar_ = <T extends FieldValues>({ name, sx }: Props<T>) => {
@@ -27,7 +28,7 @@ const RHFUploadAvatar_ = <T extends FieldValues>({ name, sx }: Props<T>) => {
   );
 
   const handleRemoveFile = useCallback(() => {
-    setValue(name, null as T[Path<T>]);
+    setValue(name, undefined as T[Path<T>]);
   }, [name, setValue]);
 
   const { getRootProps, getInputProps } = useDropzone({

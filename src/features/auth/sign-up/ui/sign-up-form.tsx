@@ -45,6 +45,12 @@ export const SignUpForm: FC = () => {
 
       const res = await signUp({
         ...values,
+        ...(values.firstName && {
+          firstName: values.firstName,
+        }),
+        ...(values.lastName && {
+          lastName: values.lastName,
+        }),
         ...(imageUrl && {
           imageUrl,
         }),

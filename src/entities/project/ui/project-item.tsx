@@ -1,5 +1,8 @@
 import { useGetCurrentUserQuery } from "@entities/user";
-import { useUpdateProjectMutation } from "@features/project/update-project";
+import {
+  UpdateProjectDialog,
+  useUpdateProjectMutation,
+} from "@features/project/update-project";
 import ArchiveIcon from "@mui/icons-material/Archive";
 import EditIcon from "@mui/icons-material/Edit";
 import UnarchiveIcon from "@mui/icons-material/Unarchive";
@@ -59,6 +62,7 @@ const ProjectItem_: FC<Props> = ({ project }) => {
   return (
     <>
       <Card
+        variant="outlined"
         onClick={() => navigate(project.id)}
         sx={{
           position: "relative",
@@ -113,6 +117,7 @@ const ProjectItem_: FC<Props> = ({ project }) => {
           <Typography
             variant="body2"
             sx={{
+              height: "66px",
               color: "text.disabled",
               overflow: "hidden",
               wordBreak: "break-all",
@@ -126,6 +131,8 @@ const ProjectItem_: FC<Props> = ({ project }) => {
           </Typography>
         </Stack>
 
+        <Divider />
+
         <Stack
           sx={{
             flexDirection: "row",
@@ -138,7 +145,7 @@ const ProjectItem_: FC<Props> = ({ project }) => {
             sx={{
               flexDirection: "row",
               alignItems: "center",
-              gap: 1,
+              gap: 3,
             }}
           >
             <Tooltip title={project.owner.username}>
@@ -149,10 +156,6 @@ const ProjectItem_: FC<Props> = ({ project }) => {
                 {project.owner.username[0].toUpperCase()}
               </Avatar>
             </Tooltip>
-
-            {project.members.length > 0 && (
-              <Divider flexItem orientation="vertical" />
-            )}
 
             <AvatarGroup>
               {project.members.map((member) => (
@@ -214,6 +217,12 @@ const ProjectItem_: FC<Props> = ({ project }) => {
           />
         )}
       </Card>
+
+      <UpdateProjectDialog
+        project={project}
+        open={dialog.open}
+        onClose={dialog.onClose}
+      />
     </>
   );
 };

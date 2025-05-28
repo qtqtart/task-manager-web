@@ -71,7 +71,7 @@
   "projectsNotFound": "Projects not found",
   "tasksNotFound": "Tasks not found",
   "createProject": "Create project",
-  "updateProject": "Update project",
+  "editProject": "Edit project",
   "archive": "Archive",
   "archived": "Archived",
   "unarchive": "Unarchive",
